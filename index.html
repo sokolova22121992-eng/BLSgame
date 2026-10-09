@@ -621,19 +621,36 @@ footer {
     transition: none !important;
   }
 }
-</style>
+</style> 
+  .brandBlock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #60a5fa;
+}
 </head>
 
 <body>
 <div class="app">
 
-  <header>
+<header>
+  <div class="brandBlock">
+    <img src="./bls-avatar.png" alt="" class="header-avatar">
     <div>
       <div class="brand">BLS <span style="color:#2477b9">INTERACTIVE</span></div>
       <div class="subtitle">Базова підтримка життя · Навчальний сценарій</div>
     </div>
-    <div class="counter" id="counter">Етап 1 із 6</div>
-  </header>
+  </div>
+  <div class="counter" id="counter">Етап 1 із 6</div>
+</header>
 
   <div class="progress" aria-label="Прогрес сценарію">
     <div class="progressFill" id="progress"></div>
