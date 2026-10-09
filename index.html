@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#eaf4ff">
 <title>BLS — інтерактивний сценарій</title>
+
 <style>
 :root {
   --blue: #1769aa;
@@ -14,246 +15,618 @@
   --red: #c53b43;
   --text: #18334b;
 }
-* { box-sizing: border-box; }
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   color: var(--text);
-  background: linear-gradient(145deg,#edf5ff,#dce9f7);
+  background: linear-gradient(145deg, #edf5ff, #dce9f7);
   min-height: 100vh;
+  min-height: 100dvh;
 }
+
+button {
+  font: inherit;
+}
+
 .app {
-  width: min(100%, 1100px);
-  margin: auto;
-  padding: 14px;
+  width: min(100%, 1440px);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 12px 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
 }
+
+/* HEADER */
+
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  flex-shrink: 0;
 }
+
 .brand {
-  font-size: clamp(18px,3vw,27px);
+  font-size: clamp(18px, 2vw, 25px);
   font-weight: 800;
   letter-spacing: .3px;
 }
-.subtitle { color: #55718b; font-size: 13px; margin-top: 4px; }
+
+.subtitle {
+  color: #55718b;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
 .counter {
   white-space: nowrap;
   border: 1px solid #c2d7ec;
   background: #fff;
   border-radius: 30px;
-  padding: 9px 13px;
-  font-size: 13px;
+  padding: 8px 12px;
+  font-size: 12px;
   font-weight: 700;
 }
+
 .progress {
-  height: 6px;
+  height: 5px;
+  flex-shrink: 0;
   background: #cfdeed;
   border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 12px;
 }
+
 .progressFill {
   height: 100%;
   width: 16.66%;
-  background: linear-gradient(90deg,#2c8bd3,#14528e);
+  background: linear-gradient(90deg, #2c8bd3, #14528e);
   transition: width .3s;
 }
-.sceneCard {
-  background: white;
+
+/* ОСНОВНЕ РОЗТАШУВАННЯ */
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.sceneCard,
+.panel {
+  min-width: 0;
+  min-height: 0;
+  background: #fff;
   border: 1px solid #d1e0ef;
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 28px #234b7010;
 }
+
+/* СЦЕНА */
+
+.sceneCard {
+  display: flex;
+  flex-direction: column;
+}
+
 .sceneTop {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px;
+  padding: 10px 13px;
   background: #f7fbff;
   border-bottom: 1px solid #e1eaf3;
+  flex-shrink: 0;
 }
+
 .sceneLabel {
   font-weight: 800;
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: .6px;
 }
+
 .sceneStatus {
   color: #57728b;
-  font-size: 12px;
+  font-size: 11px;
   text-align: right;
 }
+
 .sceneWrap {
   width: 100%;
+  flex: 1;
+  min-height: 0;
   background: #e5edf1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
+
 #scene {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
+  max-height: 100%;
   aspect-ratio: 900 / 350;
 }
+
 .sceneCaption {
   background: #f7fbff;
-  padding: 10px 15px;
-  font-size: 13px;
+  padding: 9px 12px;
+  font-size: 12px;
+  line-height: 1.4;
   color: #526b82;
   border-top: 1px solid #e2ebf4;
+  flex-shrink: 0;
 }
+
+/* ПАНЕЛЬ ЗАПИТАНЬ */
+
 .panel {
-  margin-top: 14px;
-  background: white;
-  border: 1px solid #d1e0ef;
-  border-radius: 18px;
-  padding: clamp(16px,3vw,25px);
-  box-shadow: 0 8px 28px #234b7010;
+  padding: clamp(13px, 1.5vw, 22px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
+
 .eyebrow {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   color: var(--blue);
-  letter-spacing: 1.2px;
-  margin-bottom: 9px;
+  letter-spacing: 1px;
+  margin-bottom: 7px;
+  flex-shrink: 0;
 }
+
 h1 {
-  font-size: clamp(20px,3.3vw,29px);
-  line-height: 1.25;
-  margin: 0 0 9px;
+  font-size: clamp(18px, 1.8vw, 25px);
+  line-height: 1.23;
+  margin: 0 0 7px;
+  flex-shrink: 0;
 }
+
 .questionHint {
   color: #647b90;
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 17px;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  flex-shrink: 0;
 }
+
 .answers {
   display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
+
 .answer {
   display: flex;
   align-items: flex-start;
-  gap: 11px;
+  gap: 8px;
   text-align: left;
-  padding: 14px;
+  padding: 10px;
   border: 1.5px solid #d7e3ef;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #fff;
   color: var(--text);
-  font-size: 15px;
-  line-height: 1.4;
+  font-size: 12px;
+  line-height: 1.35;
   cursor: pointer;
-  min-height: 64px;
-  transition: border-color .15s,background .15s,transform .15s;
+  min-height: 52px;
+  transition: border-color .15s, background .15s, transform .15s;
 }
+
 .answer:hover {
   border-color: #6da8db;
   background: #f5faff;
 }
-.answer:active { transform: scale(.99); }
+
+.answer:active {
+  transform: scale(.99);
+}
+
+.answer:focus-visible,
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 3px solid #79b7ed;
+  outline-offset: 2px;
+}
+
 .letter {
-  flex: 0 0 27px;
-  height: 27px;
+  flex: 0 0 23px;
+  height: 23px;
   display: grid;
   place-items: center;
-  border-radius: 8px;
+  border-radius: 7px;
   background: #eaf3fc;
   color: #215e94;
   font-weight: 800;
-  font-size: 13px;
+  font-size: 12px;
 }
+
 .answer.correct {
   border-color: #299b62;
   background: #eefaf3;
 }
-.answer.correct .letter { background: #d0f0dd; color: #12693a; }
+
+.answer.correct .letter {
+  background: #d0f0dd;
+  color: #12693a;
+}
+
 .answer.wrong {
   border-color: #d85c62;
   background: #fff2f2;
 }
-.answer.wrong .letter { background: #fbe0e0; color: #a5252b; }
-.answer:disabled { cursor: default; }
+
+.answer.wrong .letter {
+  background: #fbe0e0;
+  color: #a5252b;
+}
+
+.answer:disabled {
+  cursor: default;
+}
+
 .feedback {
   display: none;
-  margin-top: 15px;
-  padding: 15px;
-  border-radius: 12px;
-  line-height: 1.55;
-  font-size: 14px;
+  margin-top: 10px;
+  padding: 11px;
+  border-radius: 10px;
+  line-height: 1.45;
+  font-size: 12px;
+  flex-shrink: 0;
 }
-.feedback.show { display: block; }
-.feedback.good { background: #edf9f1; border: 1px solid #c4e9d0; }
-.feedback.bad { background: #fff4ed; border: 1px solid #f0d3be; }
-.feedback strong { display: block; margin-bottom: 4px; }
+
+.feedback.show {
+  display: block;
+}
+
+.feedback.good {
+  background: #edf9f1;
+  border: 1px solid #c4e9d0;
+}
+
+.feedback.bad {
+  background: #fff4ed;
+  border: 1px solid #f0d3be;
+}
+
+.feedback strong {
+  display: block;
+  margin-bottom: 3px;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 14px;
+  gap: 8px;
+  margin-top: 10px;
+  flex-shrink: 0;
 }
-.primary,.secondary {
+
+.primary,
+.secondary {
   border: 0;
-  border-radius: 11px;
-  padding: 13px 18px;
-  font-size: 15px;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13px;
   font-weight: 800;
   cursor: pointer;
 }
-.primary { background: var(--blue); color: white; }
-.primary:hover { background: #10588f; }
-.secondary { background: #edf3f9; color: #36536e; }
-.hidden { display: none !important; }
+
+.primary {
+  background: var(--blue);
+  color: #fff;
+}
+
+.primary:hover {
+  background: #10588f;
+}
+
+.secondary {
+  background: #edf3f9;
+  color: #36536e;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ДИСКЛЕЙМЕР */
+
 .learningNote {
-  margin-top: 14px;
+  flex-shrink: 0;
   background: #e9f1f9;
   border: 1px solid #cfdeec;
-  border-radius: 14px;
-  padding: 15px 17px;
-  font-size: 13px;
-  line-height: 1.55;
+  border-radius: 11px;
+  padding: 9px 13px;
+  font-size: 11px;
+  line-height: 1.4;
   color: #405d77;
 }
+
 .learningNote strong {
   display: block;
   color: #173e62;
-  font-size: 14px;
-  margin-bottom: 4px;
+  font-size: 12px;
+  margin-bottom: 2px;
 }
+
+/* ПІДПИС РОЗРОБНИКА */
+
 footer {
-  text-align: center;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
   color: #72869a;
-  font-size: 11px;
-  padding: 15px 0 5px;
+  font-size: 10px;
+  padding: 0 2px 1px;
 }
-@media(max-width:600px) {
-  .app { padding: 9px; }
-  header { align-items: flex-start; }
-  .subtitle { max-width: 220px; line-height: 1.35; }
-  .counter { font-size: 11px; padding: 8px 10px; }
-  .sceneTop { padding: 10px 12px; }
-  .sceneLabel { font-size: 11px; }
-  .sceneStatus { font-size: 10px; }
-  .answers { grid-template-columns: 1fr; gap: 8px; }
-  .answer { min-height: 55px; padding: 11px; font-size: 14px; }
-  .panel { padding: 16px 13px; }
-  .questionHint { margin-bottom: 13px; }
-  .primary,.secondary { flex: 1; padding: 13px 10px; }
+
+/* НИЗЬКІ ЕКРАНИ НОУТБУКІВ */
+
+@media (min-width: 850px) and (max-height: 800px) {
+  .app {
+    padding: 8px 12px 5px;
+    gap: 6px;
+  }
+
+  .workspace {
+    gap: 9px;
+  }
+
+  .sceneTop {
+    padding: 7px 11px;
+  }
+
+  .sceneCaption {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 19px;
+  }
+
+  .questionHint {
+    margin-bottom: 8px;
+  }
+
+  .answer {
+    min-height: 44px;
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .learningNote {
+    padding: 7px 10px;
+  }
 }
-@media(min-width:850px) {
-  .sceneWrap { max-height: 390px; }
-  #scene { max-height: 390px; }
+
+/* ТЕЛЕФОНИ ТА ВУЗЬКІ ЕКРАНИ */
+
+@media (max-width: 849px) {
+  .app {
+    padding: 8px;
+    gap: 7px;
+  }
+
+  .workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .sceneCard {
+    flex: 0 0 auto;
+  }
+
+  .sceneWrap {
+    flex: 0 0 auto;
+  }
+
+  #scene {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  .sceneTop {
+    padding: 7px 10px;
+  }
+
+  .sceneCaption {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+
+  .panel {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+  }
+
+  .eyebrow {
+    margin-bottom: 5px;
+  }
+
+  h1 {
+    font-size: clamp(17px, 4.5vw, 22px);
+    margin-bottom: 6px;
+  }
+
+  .questionHint {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .answers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .answer {
+    padding: 8px;
+    gap: 6px;
+    min-height: 0;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .letter {
+    flex-basis: 21px;
+    height: 21px;
+    font-size: 11px;
+  }
+
+  .feedback {
+    margin-top: 8px;
+    padding: 9px;
+    font-size: 11px;
+  }
+
+  .actions {
+    margin-top: 8px;
+  }
+
+  .primary,
+  .secondary {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .learningNote {
+    padding: 8px 10px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .learningNote strong {
+    font-size: 11px;
+  }
+
+  footer {
+    font-size: 9px;
+  }
+}
+
+/* ДУЖЕ ВУЗЬКІ ТЕЛЕФОНИ */
+
+@media (max-width: 380px) {
+  .app {
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .brand {
+    font-size: 17px;
+  }
+
+  .subtitle {
+    max-width: 200px;
+    font-size: 10px;
+  }
+
+  .counter {
+    padding: 7px 8px;
+    font-size: 10px;
+  }
+
+  .sceneStatus {
+    font-size: 10px;
+  }
+
+  .panel {
+    padding: 9px;
+  }
+
+  .answer {
+    font-size: 10px;
+    padding: 7px;
+  }
+}
+
+/* ЗМЕНШЕНА ВИСОТА МОБІЛЬНОГО ЕКРАНА */
+
+@media (max-width: 849px) and (max-height: 760px) {
+  .app {
+    gap: 5px;
+    padding: 5px;
+  }
+
+  .workspace {
+    gap: 5px;
+  }
+
+  .sceneTop {
+    padding: 5px 8px;
+  }
+
+  .sceneCaption {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+
+  .panel {
+    padding: 8px;
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+
+  .questionHint {
+    margin-bottom: 6px;
+  }
+
+  .answer {
+    padding: 6px;
+    font-size: 10px;
+  }
+
+  .learningNote {
+    padding: 6px 8px;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
 }
 </style>
 </head>
+
 <body>
 <div class="app">
+
   <header>
     <div>
       <div class="brand">BLS <span style="color:#2477b9">INTERACTIVE</span></div>
@@ -262,212 +635,255 @@ footer {
     <div class="counter" id="counter">Етап 1 із 6</div>
   </header>
 
-  <div class="progress"><div class="progressFill" id="progress"></div></div>
+  <div class="progress" aria-label="Прогрес сценарію">
+    <div class="progressFill" id="progress"></div>
+  </div>
 
-  <section class="sceneCard">
-    <div class="sceneTop">
-      <div class="sceneLabel">СИТУАЦІЯ</div>
-      <div class="sceneStatus" id="sceneStatus">Виявлення постраждалого</div>
-    </div>
-    <div class="sceneWrap">
-      <svg id="scene" viewBox="0 0 900 350" role="img"
-           aria-label="Перехожий біля дорослого постраждалого, який лежить на спині">
-        <defs>
-          <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#e5edf0"/>
-            <stop offset="100%" stop-color="#ccdbe1"/>
-          </linearGradient>
-          <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#4e82b2"/>
-            <stop offset="100%" stop-color="#2d5b86"/>
-          </linearGradient>
-          <linearGradient id="pants" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#384e66"/>
-            <stop offset="100%" stop-color="#25384d"/>
-          </linearGradient>
-        </defs>
-        <rect width="900" height="350" fill="url(#ground)"/>
-        <path d="M0 45 H900 M0 300 H900" stroke="#bdcfd7" stroke-width="2"/>
-        <path d="M45 0 V350 M855 0 V350" stroke="#d2dfe4" stroke-width="2"/>
-        <g opacity=".35" fill="#a9bdc7">
-          <circle cx="95" cy="55" r="3"/><circle cx="135" cy="275" r="3"/>
-          <circle cx="760" cy="64" r="3"/><circle cx="810" cy="265" r="3"/>
-          <circle cx="450" cy="35" r="3"/><circle cx="540" cy="315" r="3"/>
-        </g>
+  <div class="workspace">
 
-        <!-- Дорослий постраждалий: лежить ГОРИЗОНТАЛЬНО НА СПИНІ.
-             Голова ліворуч, ноги праворуч. Уся фігура в межах сцени. -->
-        <g id="victim">
-          <ellipse cx="442" cy="194" rx="250" ry="67" fill="#728b97" opacity=".16"/>
+    <section class="sceneCard">
+      <div class="sceneTop">
+        <div class="sceneLabel">СИТУАЦІЯ</div>
+        <div class="sceneStatus" id="sceneStatus">Виявлення постраждалого</div>
+      </div>
 
-          <!-- Ноги, спрямовані праворуч -->
-          <path d="M526 184 L621 177 Q643 176 657 184 L731 197
-                   Q744 201 740 211 Q737 219 722 216 L638 205
-                   L550 211 Z"
-                fill="url(#pants)" stroke="#263c50" stroke-width="2"/>
-          <path d="M527 211 L615 213 L671 235 Q684 241 677 250
-                   Q670 257 657 249 L594 234 L531 237 Z"
-                fill="url(#pants)" stroke="#263c50" stroke-width="2"/>
-          <path d="M722 194 Q745 194 757 203 Q765 210 757 216
-                   L735 216 L722 211 Z" fill="#303b47"/>
-          <path d="M659 238 Q680 240 692 251 Q697 259 687 262
-                   L663 257 L653 249 Z" fill="#303b47"/>
+      <div class="sceneWrap">
+        <svg id="scene" viewBox="0 0 900 350" role="img"
+          aria-label="Перехожий біля дорослого постраждалого, який лежить на спині">
 
-          <!-- Тулуб лежить плазом -->
-          <path d="M335 151 Q355 137 391 143 L507 158
-                   Q531 162 540 182 L535 219
-                   Q531 236 510 237 L383 231
-                   Q353 229 343 211 L324 180 Z"
-                fill="url(#shirt)" stroke="#294f74" stroke-width="2"/>
-          <path d="M386 148 L393 230" stroke="#91b5d2" stroke-width="3" opacity=".7"/>
-          <path d="M420 160 L423 229" stroke="#254f75" stroke-width="2" opacity=".4"/>
+          <defs>
+            <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e5edf0"/>
+              <stop offset="100%" stop-color="#ccdbe1"/>
+            </linearGradient>
+            <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#4e82b2"/>
+              <stop offset="100%" stop-color="#2d5b86"/>
+            </linearGradient>
+            <linearGradient id="pants" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#384e66"/>
+              <stop offset="100%" stop-color="#25384d"/>
+            </linearGradient>
+          </defs>
 
-          <!-- Рука 1 -->
-          <path d="M354 159 L325 182 L294 202 Q284 209 291 218
-                   Q298 225 308 217 L345 197 L373 177 Z"
-                fill="#d8a17f" stroke="#b98061" stroke-width="2"/>
-          <!-- Рука 2 -->
-          <path d="M363 218 L339 237 L311 250 Q301 256 306 264
-                   Q312 271 323 263 L361 246 L390 230 Z"
-                fill="#d8a17f" stroke="#b98061" stroke-width="2"/>
+          <rect width="900" height="350" fill="url(#ground)"/>
+          <path d="M0 45 H900 M0 300 H900" stroke="#bdcfd7" stroke-width="2"/>
+          <path d="M45 0 V350 M855 0 V350" stroke="#d2dfe4" stroke-width="2"/>
 
-          <!-- Шия та голова, обличчя догори -->
-          <path d="M327 162 L312 160 L302 177 L321 190 L338 176 Z"
-                fill="#c98f6e"/>
-          <path d="M267 151 Q271 127 295 126 Q321 128 329 148
-                   L324 171 Q317 188 294 185 Q274 181 267 164 Z"
-                fill="#e0ad8a" stroke="#b98061" stroke-width="2"/>
-          <!-- Вухо -->
-          <ellipse cx="321" cy="157" rx="7" ry="10" fill="#d49b79"/>
-          <!-- Волосся -->
-          <path d="M268 153 Q264 135 279 126 Q298 115 315 129
-                   Q326 137 326 148 L315 145 L308 136
-                   Q293 146 274 145 Z" fill="#443a35"/>
-          <!-- Обличчя -->
-          <path d="M280 158 Q285 155 290 158" fill="none" stroke="#59443b" stroke-width="2" stroke-linecap="round"/>
-          <path d="M300 158 Q305 155 310 158" fill="none" stroke="#59443b" stroke-width="2" stroke-linecap="round"/>
-          <path d="M292 159 L290 166 L295 168" fill="none" stroke="#b98061" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M286 175 Q295 179 303 174" fill="none" stroke="#995e54" stroke-width="2" stroke-linecap="round"/>
-        </g>
+          <g opacity=".35" fill="#a9bdc7">
+            <circle cx="95" cy="55" r="3"/>
+            <circle cx="135" cy="275" r="3"/>
+            <circle cx="760" cy="64" r="3"/>
+            <circle cx="810" cy="265" r="3"/>
+            <circle cx="450" cy="35" r="3"/>
+            <circle cx="540" cy="315" r="3"/>
+          </g>
 
-        <!-- Перехожий: звичайний одяг, стоїть збоку, обличчям до постраждалого -->
-        <g id="rescuer">
-          <ellipse cx="128" cy="242" rx="59" ry="13" fill="#708894" opacity=".18"/>
-          <!-- Взуття -->
-          <path d="M97 293 L128 293 L137 309 Q140 316 130 318 L91 318
-                   Q85 315 89 307 Z" fill="#303c4a"/>
-          <path d="M148 293 L177 293 L188 309 Q190 316 181 318 L145 318
-                   Q139 315 142 307 Z" fill="#303c4a"/>
-          <!-- Штани -->
-          <path d="M98 218 L151 218 L161 273 L151 301 L132 301
-                   L124 258 L115 301 L95 301 L91 269 Z"
-                fill="#465b72" stroke="#30465b" stroke-width="2"/>
-          <path d="M126 230 L125 258" stroke="#7b8fa3" stroke-width="2"/>
-          <!-- Звичайна футболка -->
-          <path d="M94 153 Q113 140 139 151 L159 166 L151 215
-                   Q126 229 91 215 L86 172 Z"
-                fill="#e4e9ee" stroke="#b8c7d2" stroke-width="2"/>
-          <path d="M112 151 L122 164 L134 151" fill="#c9d7e1"/>
-          <!-- Руки -->
-          <path d="M94 165 L80 188 L89 213 L103 209 L100 188 L108 177"
-                fill="#d7a07e" stroke="#b78061" stroke-width="2"/>
-          <path d="M151 166 L164 186 L180 197 L173 209 L154 197 L141 178"
-                fill="#d7a07e" stroke="#b78061" stroke-width="2"/>
-          <!-- Голова, повернута до постраждалого -->
-          <path d="M109 120 L109 151 L132 155 L140 129 Z" fill="#c98e6d"/>
-          <ellipse cx="123" cy="111" rx="24" ry="30" fill="#e0ad8a" stroke="#b98061" stroke-width="2"/>
-          <path d="M100 112 Q95 86 116 79 Q140 76 147 100
-                   L143 111 L133 96 Q118 104 101 99 Z" fill="#4a3b34"/>
-          <path d="M132 112 L142 116 L133 121" fill="none" stroke="#a86f56" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="134" cy="108" r="2" fill="#42342e"/>
-          <path d="M115 129 Q124 133 132 127" fill="none" stroke="#a56558" stroke-width="2" stroke-linecap="round"/>
-        </g>
+          <!-- Постраждалий -->
+          <g id="victim">
+            <ellipse cx="442" cy="194" rx="250" ry="67" fill="#728b97" opacity=".16"/>
 
-        <!-- Сцена для перевірки реакції -->
-        <g id="reactionAction" style="display:none">
-          <path d="M171 189 Q215 165 270 166" fill="none" stroke="#1c70ad" stroke-width="3" stroke-dasharray="7 5"/>
-          <circle cx="270" cy="166" r="6" fill="#1c70ad"/>
-          <rect x="185" y="132" width="130" height="25" rx="12" fill="#fff" stroke="#9fc4e5"/>
-          <text x="250" y="149" font-size="12" font-weight="bold" fill="#1c6097" text-anchor="middle">Перевірка реакції</text>
-        </g>
+            <path d="M526 184 L621 177 Q643 176 657 184 L731 197
+              Q744 201 740 211 Q737 219 722 216 L638 205 L550 211 Z"
+              fill="url(#pants)" stroke="#263c50" stroke-width="2"/>
 
-        <!-- Виклик 103 -->
-        <g id="callAction" style="display:none">
-          <rect x="64" y="40" width="105" height="39" rx="10" fill="#fff" stroke="#2a80bd" stroke-width="2"/>
-          <text x="116" y="56" text-anchor="middle" font-size="11" fill="#225e8e">ВИКЛИК</text>
-          <text x="116" y="71" text-anchor="middle" font-size="17" font-weight="bold" fill="#1769aa">103</text>
-          <path d="M119 83 L126 96" stroke="#2a80bd" stroke-width="2" stroke-dasharray="4 3"/>
-        </g>
+            <path d="M527 211 L615 213 L671 235 Q684 241 677 250
+              Q670 257 657 249 L594 234 L531 237 Z"
+              fill="url(#pants)" stroke="#263c50" stroke-width="2"/>
 
-        <!-- СЛР: руки на центрі грудної клітки -->
-        <g id="cprAction" style="display:none">
-          <path d="M365 151 L405 181 L437 190" fill="none" stroke="#e0ad8a" stroke-width="14" stroke-linecap="round"/>
-          <path d="M372 149 L414 178 L437 190" fill="none" stroke="#e0ad8a" stroke-width="11" stroke-linecap="round"/>
-          <ellipse cx="439" cy="192" rx="20" ry="12" fill="#f2c6a5" stroke="#a86f56" stroke-width="2"/>
-          <path d="M431 180 L431 166 M440 180 L440 164" stroke="#1769aa" stroke-width="3" stroke-linecap="round"/>
-          <path d="M417 151 L461 151" stroke="#1769aa" stroke-width="2"/>
-          <path d="M417 146 L417 156 M461 146 L461 156" stroke="#1769aa" stroke-width="2"/>
-          <rect x="396" y="112" width="87" height="25" rx="12" fill="#fff" stroke="#9fc4e5"/>
-          <text x="439" y="128" font-size="12" font-weight="bold" fill="#1c6097" text-anchor="middle">Компресії</text>
-        </g>
+            <path d="M722 194 Q745 194 757 203 Q765 210 757 216
+              L735 216 L722 211 Z" fill="#303b47"/>
 
-        <!-- АЗД та електроди -->
-        <g id="aedAction" style="display:none">
-          <rect x="62" y="42" width="91" height="86" rx="9" fill="#f9fcff" stroke="#23689b" stroke-width="3"/>
-          <rect x="73" y="52" width="69" height="22" rx="4" fill="#d7e8f7"/>
-          <text x="107" y="67" font-size="11" font-weight="bold" text-anchor="middle" fill="#185a8b">АЗД</text>
-          <path d="M86 91 L99 91 L106 80 L114 105 L121 91 L132 91" fill="none" stroke="#16834a" stroke-width="3" stroke-linejoin="round"/>
-          <circle cx="107" cy="115" r="4" fill="#16834a"/>
-          <path d="M153 88 Q186 97 207 142 L348 171" fill="none" stroke="#4e6f89" stroke-width="3" stroke-dasharray="5 4"/>
-          <rect x="342" y="158" width="22" height="24" rx="4" fill="#fff" stroke="#2a80bd" stroke-width="2"/>
-          <path d="M346 169 L360 169" stroke="#2a80bd" stroke-width="2"/>
-          <path d="M153 100 Q191 118 231 157 L415 202" fill="none" stroke="#4e6f89" stroke-width="3" stroke-dasharray="5 4"/>
-          <rect x="408" y="192" width="22" height="24" rx="4" fill="#fff" stroke="#2a80bd" stroke-width="2"/>
-          <path d="M412 203 L426 203" stroke="#2a80bd" stroke-width="2"/>
-          <rect x="171" y="44" width="171" height="26" rx="13" fill="#fff" stroke="#9fc4e5"/>
-          <text x="256" y="61" font-size="12" font-weight="bold" fill="#1c6097" text-anchor="middle">Під'єднання електродів</text>
-        </g>
+            <path d="M659 238 Q680 240 692 251 Q697 259 687 262
+              L663 257 L653 249 Z" fill="#303b47"/>
 
-        <!-- Безпека місця події -->
-        <g id="safetyAction" style="display:none">
-          <circle cx="224" cy="102" r="28" fill="#fff" stroke="#16834a" stroke-width="3"/>
-          <path d="M211 102 L221 112 L239 91" fill="none" stroke="#16834a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-          <rect x="183" y="137" width="115" height="25" rx="12" fill="#fff" stroke="#9fc4e5"/>
-          <text x="240" y="153" font-size="12" font-weight="bold" fill="#1769aa" text-anchor="middle">Безпеку оцінено</text>
-        </g>
+            <path d="M335 151 Q355 137 391 143 L507 158
+              Q531 162 540 182 L535 219 Q531 236 510 237
+              L383 231 Q353 229 343 211 L324 180 Z"
+              fill="url(#shirt)" stroke="#294f74" stroke-width="2"/>
 
-        <!-- Завершення -->
-        <g id="doneAction" style="display:none">
-          <rect x="570" y="35" width="265" height="44" rx="12" fill="#fff" stroke="#16834a" stroke-width="2"/>
-          <circle cx="593" cy="57" r="10" fill="#16834a"/>
-          <path d="M588 57 L592 61 L599 52" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-          <text x="710" y="62" font-size="14" font-weight="bold" fill="#12693a" text-anchor="middle">Алгоритм пройдено</text>
-        </g>
-      </svg>
-    </div>
-    <div class="sceneCaption" id="sceneCaption">
-      Ви помітили дорослого, який лежить на землі. Перш ніж наближатися, оцініть обстановку.
-    </div>
-  </section>
+            <path d="M386 148 L393 230" stroke="#91b5d2" stroke-width="3" opacity=".7"/>
+            <path d="M420 160 L423 229" stroke="#254f75" stroke-width="2" opacity=".4"/>
 
-  <main class="panel">
-    <div class="eyebrow" id="eyebrow">ЕТАП 1 · ВИЯВЛЕННЯ</div>
-    <h1 id="question">Ви помітили людину, яка лежить на землі. Що зробите насамперед?</h1>
-    <div class="questionHint" id="hint">Оберіть одну відповідь. Після вибору побачите наслідок своєї дії.</div>
-    <div class="answers" id="answers"></div>
-    <div class="feedback" id="feedback" aria-live="polite"></div>
-    <div class="actions">
-      <button class="primary hidden" id="continueBtn">Наступний етап →</button>
-      <button class="secondary hidden" id="retryBtn">Спробувати ще раз</button>
-      <button class="secondary hidden" id="restartBtn">Почати спочатку</button>
-    </div>
-  </main>
+            <path d="M354 159 L325 182 L294 202 Q284 209 291 218
+              Q298 225 308 217 L345 197 L373 177 Z"
+              fill="#d8a17f" stroke="#b98061" stroke-width="2"/>
+
+            <path d="M363 218 L339 237 L311 250 Q301 256 306 264
+              Q312 271 323 263 L361 246 L390 230 Z"
+              fill="#d8a17f" stroke="#b78061" stroke-width="2"/>
+
+            <path d="M327 162 L312 160 L302 177 L321 190 L338 176 Z"
+              fill="#c98f6e"/>
+
+            <path d="M267 151 Q271 127 295 126 Q321 128 329 148
+              L324 171 Q317 188 294 185 Q274 181 267 164 Z"
+              fill="#e0ad8a" stroke="#b98061" stroke-width="2"/>
+
+            <ellipse cx="321" cy="157" rx="7" ry="10" fill="#d49b79"/>
+
+            <path d="M268 153 Q264 135 279 126 Q298 115 315 129
+              Q326 137 326 148 L315 145 L308 136 Q293 146 274 145 Z"
+              fill="#443a35"/>
+
+            <path d="M280 158 Q285 155 290 158" fill="none" stroke="#59443b" stroke-width="2" stroke-linecap="round"/>
+            <path d="M300 158 Q305 155 310 158" fill="none" stroke="#59443b" stroke-width="2" stroke-linecap="round"/>
+            <path d="M292 159 L290 166 L295 168" fill="none" stroke="#b98061" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M286 175 Q295 179 303 174" fill="none" stroke="#995e54" stroke-width="2" stroke-linecap="round"/>
+          </g>
+
+          <!-- Перехожий -->
+          <g id="rescuer">
+            <ellipse cx="128" cy="242" rx="59" ry="13" fill="#708894" opacity=".18"/>
+
+            <path d="M97 293 L128 293 L137 309 Q140 316 130 318
+              L91 318 Q85 315 89 307 Z" fill="#303c4a"/>
+
+            <path d="M148 293 L177 293 L188 309 Q190 316 181 318
+              L145 318 Q139 315 142 307 Z" fill="#303c4a"/>
+
+            <path d="M98 218 L151 218 L161 273 L151 301 L132 301
+              L124 258 L115 301 L95 301 L91 269 Z"
+              fill="#465b72" stroke="#30465b" stroke-width="2"/>
+
+            <path d="M126 230 L125 258" stroke="#7b8fa3" stroke-width="2"/>
+
+            <path d="M94 153 Q113 140 139 151 L159 166 L151 215
+              Q126 229 91 215 L86 172 Z"
+              fill="#e4e9ee" stroke="#b8c7d2" stroke-width="2"/>
+
+            <path d="M112 151 L122 164 L134 151" fill="#c9d7e1"/>
+
+            <path d="M94 165 L80 188 L89 213 L103 209 L100 188 L108 177"
+              fill="#d7a07e" stroke="#b78061" stroke-width="2"/>
+
+            <path d="M151 166 L164 186 L180 197 L173 209 L154 197 L141 178"
+              fill="#d7a07e" stroke="#b78061" stroke-width="2"/>
+
+            <path d="M109 120 L109 151 L132 155 L140 129 Z" fill="#c98e6d"/>
+
+            <ellipse cx="123" cy="111" rx="24" ry="30"
+              fill="#e0ad8a" stroke="#b98061" stroke-width="2"/>
+
+            <path d="M100 112 Q95 86 116 79 Q140 76 147 100
+              L143 111 L133 96 Q118 104 101 99 Z" fill="#4a3b34"/>
+
+            <path d="M132 112 L142 116 L133 121" fill="none" stroke="#a86f56" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="134" cy="108" r="2" fill="#42342e"/>
+            <path d="M115 129 Q124 133 132 127" fill="none" stroke="#a56558" stroke-width="2" stroke-linecap="round"/>
+          </g>
+
+          <!-- Перевірка реакції -->
+          <g id="reactionAction" style="display:none">
+            <path d="M171 189 Q215 165 270 166" fill="none"
+              stroke="#1c70ad" stroke-width="3" stroke-dasharray="7 5"/>
+            <circle cx="270" cy="166" r="6" fill="#1c70ad"/>
+            <rect x="185" y="132" width="130" height="25" rx="12" fill="#fff" stroke="#9fc4e5"/>
+            <text x="250" y="149" font-size="12" font-weight="bold" fill="#1c6097" text-anchor="middle">Перевірка реакції</text>
+          </g>
+
+          <!-- Виклик 103 -->
+          <g id="callAction" style="display:none">
+            <rect x="64" y="40" width="105" height="39" rx="10" fill="#fff" stroke="#2a80bd" stroke-width="2"/>
+            <text x="116" y="56" text-anchor="middle" font-size="11" fill="#225e8e">ВИКЛИК</text>
+            <text x="116" y="71" text-anchor="middle" font-size="17" font-weight="bold" fill="#1769aa">103</text>
+            <path d="M119 83 L126 96" stroke="#2a80bd" stroke-width="2" stroke-dasharray="4 3"/>
+          </g>
+
+          <!-- СЛР -->
+          <g id="cprAction" style="display:none">
+            <path d="M365 151 L405 181 L437 190" fill="none"
+              stroke="#e0ad8a" stroke-width="14" stroke-linecap="round"/>
+            <path d="M372 149 L414 178 L437 190" fill="none"
+              stroke="#e0ad8a" stroke-width="11" stroke-linecap="round"/>
+            <ellipse cx="439" cy="192" rx="20" ry="12" fill="#f2c6a5" stroke="#a86f56" stroke-width="2"/>
+            <path d="M431 180 L431 166 M440 180 L440 164"
+              stroke="#1769aa" stroke-width="3" stroke-linecap="round"/>
+            <path d="M417 151 L461 151" stroke="#1769aa" stroke-width="2"/>
+            <path d="M417 146 L417 156 M461 146 L461 156" stroke="#1769aa" stroke-width="2"/>
+            <rect x="396" y="112" width="87" height="25" rx="12" fill="#fff" stroke="#9fc4e5"/>
+            <text x="439" y="128" font-size="12" font-weight="bold" fill="#1c6097" text-anchor="middle">Компресії</text>
+          </g>
+
+          <!-- АЗД -->
+          <g id="aedAction" style="display:none">
+            <rect x="62" y="42" width="91" height="86" rx="9" fill="#f9fcff" stroke="#23689b" stroke-width="3"/>
+            <rect x="73" y="52" width="69" height="22" rx="4" fill="#d7e8f7"/>
+            <text x="107" y="67" font-size="11" font-weight="bold" text-anchor="middle" fill="#185a8b">АЗД</text>
+            <path d="M86 91 L99 91 L106 80 L114 105 L121 91 L132 91"
+              fill="none" stroke="#16834a" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="107" cy="115" r="4" fill="#16834a"/>
+
+            <path d="M153 88 Q186 97 207 142 L348 171"
+              fill="none" stroke="#4e6f89" stroke-width="3" stroke-dasharray="5 4"/>
+            <rect x="342" y="158" width="22" height="24" rx="4" fill="#fff" stroke="#2a80bd" stroke-width="2"/>
+            <path d="M346 169 L360 169" stroke="#2a80bd" stroke-width="2"/>
+
+            <path d="M153 100 Q191 118 231 157 L415 202"
+              fill="none" stroke="#4e6f89" stroke-width="3" stroke-dasharray="5 4"/>
+            <rect x="408" y="192" width="22" height="24" rx="4" fill="#fff" stroke="#2a80bd" stroke-width="2"/>
+            <path d="M412 203 L426 203" stroke="#2a80bd" stroke-width="2"/>
+
+            <rect x="171" y="44" width="171" height="26" rx="13" fill="#fff" stroke="#9fc4e5"/>
+            <text x="256" y="61" font-size="12" font-weight="bold" fill="#1c6097" text-anchor="middle">Під'єднання електродів</text>
+          </g>
+
+          <!-- Безпека -->
+          <g id="safetyAction" style="display:none">
+            <circle cx="224" cy="102" r="28" fill="#fff" stroke="#16834a" stroke-width="3"/>
+            <path d="M211 102 L221 112 L239 91" fill="none"
+              stroke="#16834a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="183" y="137" width="115" height="25" rx="12" fill="#fff" stroke="#9fc4e5"/>
+            <text x="240" y="153" font-size="12" font-weight="bold" fill="#1769aa" text-anchor="middle">Безпеку оцінено</text>
+          </g>
+
+          <!-- Завершення -->
+          <g id="doneAction" style="display:none">
+            <rect x="570" y="35" width="265" height="44" rx="12" fill="#fff" stroke="#16834a" stroke-width="2"/>
+            <circle cx="593" cy="57" r="10" fill="#16834a"/>
+            <path d="M588 57 L592 61 L599 52" fill="none"
+              stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+            <text x="710" y="62" font-size="14" font-weight="bold" fill="#12693a" text-anchor="middle">Алгоритм пройдено</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="sceneCaption" id="sceneCaption">
+        Ви помітили дорослого, який лежить на землі. Перш ніж наближатися, оцініть обстановку.
+      </div>
+    </section>
+
+    <main class="panel">
+      <div class="eyebrow" id="eyebrow">ЕТАП 1 · ВИЯВЛЕННЯ</div>
+
+      <h1 id="question">
+        Ви помітили людину, яка лежить на землі. Що зробите насамперед?
+      </h1>
+
+      <div class="questionHint" id="hint">
+        Оберіть одну відповідь. Після вибору побачите наслідок своєї дії.
+      </div>
+
+      <div class="answers" id="answers"></div>
+
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+
+      <div class="actions">
+        <button class="primary hidden" id="continueBtn">Наступний етап →</button>
+        <button class="secondary hidden" id="retryBtn">Спробувати ще раз</button>
+        <button class="secondary hidden" id="restartBtn">Почати спочатку</button>
+      </div>
+    </main>
+
+  </div>
 
   <aside class="learningNote">
-    <strong>Важливо: знання не замінюють практику</strong>
-    Цей інтерактивний матеріал допомагає засвоїти алгоритм базової підтримки життя (BLS), але не замінює практичного навчання, відпрацювання навичок на манекені та контролю якості виконання СЛР.
+    <strong>Навчальний дисклеймер</strong>
+    Інтерактивний сценарій призначений для закріплення теоретичних знань і не замінює практичного навчання, відпрацювання навичок на манекені та оцінювання якості виконання реанімаційних заходів.
   </aside>
-  <footer>Навчальний матеріал · BLS · Дорослий постраждалий</footer>
+
+  <footer>Розробник: Анна Соколова</footer>
+
 </div>
 
 <script>
@@ -584,33 +1000,47 @@ const stages = [
 
 let stageIndex = 0;
 let answered = false;
-let completed = false;
 
 const $ = id => document.getElementById(id);
 
 function setAction(action) {
-  ["reactionAction","callAction","cprAction","aedAction","safetyAction","doneAction"]
-    .forEach(id => $(id).style.display = "none");
-  if (action) $(action).style.display = "block";
+  [
+    "reactionAction",
+    "callAction",
+    "cprAction",
+    "aedAction",
+    "safetyAction",
+    "doneAction"
+  ].forEach(id => {
+    $(id).style.display = "none";
+  });
+
+  if (action) {
+    $(action).style.display = "block";
+  }
 }
 
 function renderStage() {
   const s = stages[stageIndex];
   answered = false;
-  completed = false;
 
   $("counter").textContent = `Етап ${stageIndex + 1} із ${stages.length}`;
-  $("progress").style.width = `${((stageIndex + 1) / stages.length) * 100}%`;
+  $("progress").style.width =
+    `${((stageIndex + 1) / stages.length) * 100}%`;
+
   $("eyebrow").textContent = s.eyebrow;
   $("sceneStatus").textContent = s.status;
   $("question").textContent = s.question;
   $("hint").textContent = s.hint;
   $("sceneCaption").textContent = s.caption;
+
   $("feedback").className = "feedback";
   $("feedback").innerHTML = "";
+
   $("continueBtn").classList.add("hidden");
   $("retryBtn").classList.add("hidden");
   $("restartBtn").classList.add("hidden");
+
   setAction(null);
 
   const container = $("answers");
@@ -619,9 +1049,18 @@ function renderStage() {
   s.answers.forEach((answer, index) => {
     const btn = document.createElement("button");
     btn.className = "answer";
-    btn.innerHTML = `<span class="letter">${String.fromCharCode(65 + index)}</span><span></span>`;
-    btn.querySelector("span:last-child").textContent = answer;
+    btn.type = "button";
+
+    const letter = document.createElement("span");
+    letter.className = "letter";
+    letter.textContent = String.fromCharCode(65 + index);
+
+    const answerText = document.createElement("span");
+    answerText.textContent = answer;
+
+    btn.append(letter, answerText);
     btn.addEventListener("click", () => chooseAnswer(index, btn));
+
     container.appendChild(btn);
   });
 }
@@ -632,31 +1071,43 @@ function chooseAnswer(index, button) {
 
   const s = stages[stageIndex];
   const buttons = [...$("answers").querySelectorAll("button")];
-  buttons.forEach(btn => btn.disabled = true);
+
+  buttons.forEach(btn => {
+    btn.disabled = true;
+  });
 
   const isCorrect = index === s.correct;
+
   button.classList.add(isCorrect ? "correct" : "wrong");
-  if (!isCorrect) buttons[s.correct].classList.add("correct");
+
+  if (!isCorrect) {
+    buttons[s.correct].classList.add("correct");
+  }
 
   setAction(s.action);
 
-  $("feedback").className = "feedback show " + (isCorrect ? "good" : "bad");
-  $("feedback").innerHTML = `<strong>${isCorrect ? "Правильно" : "Зверніть увагу"}</strong><span></span>`;
-  $("feedback").querySelector("span").textContent =
-    isCorrect ? s.explanation : s.wrong;
+  $("feedback").className =
+    "feedback show " + (isCorrect ? "good" : "bad");
+
+  const title = document.createElement("strong");
+  title.textContent = isCorrect ? "Правильно" : "Зверніть увагу";
+
+  const message = document.createElement("span");
+  message.textContent = isCorrect ? s.explanation : s.wrong;
+
+  $("feedback").replaceChildren(title, message);
 
   $("sceneCaption").textContent = isCorrect
     ? s.nextCaption
     : "Ви обрали іншу дію. Перегляньте пояснення та спробуйте ще раз.";
 
   if (isCorrect) {
-    if (stageIndex === stages.length - 1) {
-      $("continueBtn").textContent = "Завершити сценарій";
-      $("continueBtn").classList.remove("hidden");
-    } else {
-      $("continueBtn").textContent = "Наступний етап →";
-      $("continueBtn").classList.remove("hidden");
-    }
+    $("continueBtn").textContent =
+      stageIndex === stages.length - 1
+        ? "Завершити сценарій"
+        : "Наступний етап →";
+
+    $("continueBtn").classList.remove("hidden");
   } else {
     $("retryBtn").classList.remove("hidden");
   }
@@ -666,25 +1117,38 @@ $("continueBtn").addEventListener("click", () => {
   if (stageIndex < stages.length - 1) {
     stageIndex++;
     renderStage();
-    window.scrollTo({ top: 0, behavior: "smooth" });
     return;
   }
 
-  completed = true;
   $("counter").textContent = "Сценарій завершено";
   $("sceneStatus").textContent = "Навчальний сценарій пройдено";
-  $("question").textContent = "Ви пройшли всі 6 етапів BLS";
+  $("question").textContent = "Ви пройшли всі 6 етапів";
   $("eyebrow").textContent = "СЦЕНАРІЙ ЗАВЕРШЕНО";
-  $("hint").textContent = "Повторіть алгоритм і відпрацюйте навички практично.";
+  $("hint").textContent =
+    "Повторіть алгоритм і відпрацюйте навички практично.";
+
   $("answers").innerHTML = "";
+
   $("feedback").className = "feedback show good";
-  $("feedback").innerHTML = "<strong>Пам’ятайте</strong><span></span>";
-  $("feedback").querySelector("span").textContent =
+
+  const title = document.createElement("strong");
+  title.textContent = "Пам’ятайте";
+
+  const message = document.createElement("span");
+  message.textContent =
     "У реальній ситуації виконуйте вказівки диспетчера 103, розпочинайте СЛР за показаннями та застосовуйте АЗД якомога раніше.";
+
+  $("feedback").replaceChildren(title, message);
+
   $("continueBtn").classList.add("hidden");
+  $("retryBtn").classList.add("hidden");
   $("restartBtn").classList.remove("hidden");
+
   $("progress").style.width = "100%";
-  $("sceneCaption").textContent = "Ви завершили навчальний сценарій. Практичне відпрацювання залишається обов’язковим.";
+
+  $("sceneCaption").textContent =
+    "Ви завершили навчальний сценарій. Практичне відпрацювання залишається обов’язковим.";
+
   setAction("doneAction");
 });
 
@@ -695,7 +1159,6 @@ $("retryBtn").addEventListener("click", () => {
 $("restartBtn").addEventListener("click", () => {
   stageIndex = 0;
   renderStage();
-  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 renderStage();
