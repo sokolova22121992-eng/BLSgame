@@ -11,67 +11,78 @@
   --blue: #1677d2;
   --dark: #10283f;
   --light: #eaf4ff;
-  --white: #ffffff;
 }
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: var(--dark);
   background: #dceaf7;
 }
+
 #game {
   position: relative;
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   background: linear-gradient(#b8d9f4, #edf5fc 72%, #a6bca9);
 }
+
 #world {
   position: absolute;
   inset: 0;
 }
+
 canvas {
   display: block;
   width: 100%;
   height: 100%;
 }
+
 #hud {
   position: relative;
   z-index: 2;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 18px;
   padding: 18px;
   pointer-events: none;
 }
-.topbar, .dialogue, .progress {
+
+.topbar, .dialogue {
   pointer-events: auto;
 }
+
 .topbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
 }
-.brand {
-  color: #fff;
-  background: #10283fdd;
+
+.brand, .progress {
   border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 13px;
+  padding: 10px 13px;
+  font-size: 12px;
   font-weight: bold;
+}
+
+.brand {
+  color: white;
+  background: #10283fdd;
   letter-spacing: 1px;
 }
+
 .progress {
   color: var(--dark);
-  background: #ffffffdf;
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-size: 13px;
-  font-weight: bold;
+  background: #ffffffed;
 }
+
 .dialogue {
   width: min(680px, 100%);
   margin: 0 auto;
@@ -82,70 +93,82 @@ canvas {
   box-shadow: 0 12px 40px #18395525;
   backdrop-filter: blur(8px);
 }
+
 .eyebrow {
   color: var(--blue);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.3px;
   font-size: 11px;
   font-weight: 800;
 }
+
 h1 {
   font-size: clamp(25px, 5vw, 38px);
   line-height: 1.12;
   margin: 9px 0 12px;
 }
+
 #speech {
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.5;
   margin: 0 0 16px;
 }
+
 #choices {
   display: grid;
   gap: 9px;
 }
-.choice, .main-btn, .secondary-btn {
+
+.choice, .main-btn {
+  width: 100%;
   font: inherit;
   cursor: pointer;
   border-radius: 13px;
   padding: 13px 15px;
-  text-align: left;
-  transition: transform .15s, background .15s;
+  transition: background .15s, border-color .15s;
 }
+
 .choice {
-  border: 1px solid #c9d9e8;
+  text-align: left;
+  line-height: 1.4;
   color: var(--dark);
-  background: #fff;
-  line-height: 1.35;
+  background: white;
+  border: 1px solid #c9d9e8;
 }
-.choice:hover {
+
+.choice:hover:not(:disabled) {
   background: #edf6ff;
-  transform: translateY(-1px);
+  border-color: var(--blue);
 }
-.choice:disabled { cursor: default; opacity: .8; }
+
+.choice:disabled {
+  cursor: default;
+}
+
 .choice.correct {
-  border-color: #18834c;
+  border: 2px solid #18834c;
   background: #e5f7ed;
 }
+
 .choice.wrong {
-  border-color: #c77a28;
+  border: 2px solid #c77a28;
   background: #fff3e3;
 }
-.main-btn, .secondary-btn {
-  width: 100%;
+
+.main-btn {
+  display: block;
+  margin-top: 13px;
   text-align: center;
   font-weight: bold;
-  border: 0;
-  margin-top: 12px;
-}
-.main-btn {
-  background: var(--blue);
   color: white;
+  background: var(--blue);
+  border: 0;
 }
-.main-btn:hover { background: #0c61b1; }
-.secondary-btn {
-  color: var(--dark);
-  background: #e8f0f7;
+
+.main-btn:hover {
+  background: #0c61b1;
 }
+
 #feedback {
   display: none;
   margin-top: 13px;
@@ -155,17 +178,34 @@ h1 {
   line-height: 1.5;
   background: #edf5fc;
 }
-#feedback.show { display: block; }
+
+#feedback.show {
+  display: block;
+}
+
+#feedback.good {
+  background: #e5f7ed;
+  border-left: 4px solid #18834c;
+}
+
+#feedback.try-again {
+  background: #fff3e3;
+  border-left: 4px solid #c77a28;
+}
+
 #hint {
   color: #5a6f80;
   font-size: 11px;
-  margin-top: 10px;
+  line-height: 1.4;
+  margin-top: 11px;
 }
+
 @media (max-width: 600px) {
-  #hud { padding: 11px; }
+  #hud { padding: 11px; gap: 12px; }
   .dialogue { padding: 17px; border-radius: 18px; }
   #speech { font-size: 15px; }
   .choice, .main-btn { padding: 12px; }
+  .brand, .progress { font-size: 11px; padding: 9px; }
 }
 </style>
 
@@ -196,10 +236,15 @@ h1 {
       <p id="speech">
         Не колись. Не в теорії. А тут і зараз, коли кожна секунда має значення.
       </p>
+
       <div id="choices"></div>
-      <div id="feedback" role="status"></div>
+      <div id="feedback" role="status" aria-live="polite"></div>
+
       <button class="main-btn" id="next">Почати сценарій</button>
-      <div id="hint">Навчальна гра за алгоритмом дорослого BLS ERC 2025</div>
+
+      <div id="hint">
+        Навчальний сценарій для дорослих. Не замінює практичного навчання BLS.
+      </div>
     </section>
   </div>
 </div>
@@ -221,7 +266,6 @@ const progress = document.querySelector('#progress');
 let stage = 0;
 let answered = false;
 let vrm = null;
-let currentAudio = null;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#b8d9f4');
@@ -231,9 +275,12 @@ const camera = new THREE.PerspectiveCamera(
   36, window.innerWidth / window.innerHeight, 0.1, 100
 );
 camera.position.set(0, 2.8, 9.5);
-camera.lookAt(0, 1.15, 0);
+camera.lookAt(0.4, 1.05, 0);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  alpha: false
+});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
@@ -250,7 +297,10 @@ scene.add(sunlight);
 
 const ground = new THREE.Mesh(
   new THREE.PlaneGeometry(80, 80),
-  new THREE.MeshStandardMaterial({ color: '#9eb6a2', roughness: 1 })
+  new THREE.MeshStandardMaterial({
+    color: '#9eb6a2',
+    roughness: 1
+  })
 );
 ground.rotation.x = -Math.PI / 2;
 ground.position.y = -0.03;
@@ -265,25 +315,14 @@ function material(color, roughness = 0.75) {
   return new THREE.MeshStandardMaterial({ color, roughness });
 }
 
-function addBox(parent, size, pos, color, opts = {}) {
+function addBox(parent, size, pos, color) {
   const mesh = new THREE.Mesh(
     new THREE.BoxGeometry(...size),
-    material(color, opts.roughness ?? 0.75)
-  );
-  mesh.position.set(...pos);
-  mesh.castShadow = true;
-  mesh.receiveShadow = true;
-  parent.add(mesh);
-  return mesh;
-}
-
-function addCylinder(parent, radius, height, pos, color) {
-  const mesh = new THREE.Mesh(
-    new THREE.CylinderGeometry(radius, radius, height, 20),
     material(color)
   );
   mesh.position.set(...pos);
   mesh.castShadow = true;
+  mesh.receiveShadow = true;
   parent.add(mesh);
   return mesh;
 }
@@ -299,6 +338,7 @@ function makeAmbulance() {
   addBox(van, [2.91, 0.2, 1.32], [0, 0.88, 0], '#e33443');
   addBox(van, [0.8, 0.09, 1.35], [0, 1.53, 0], '#d9263c');
   addBox(van, [0.36, 0.22, 0.08], [0.35, 1.6, 0.68], '#f4f7fa');
+  addBox(van, [0.55, 0.13, 0.18], [0, 1.86, 0], '#f34652');
 
   for (const x of [-0.9, 0.88]) {
     const wheel = new THREE.Mesh(
@@ -314,7 +354,6 @@ function makeAmbulance() {
     van.add(wheel2);
   }
 
-  addBox(van, [0.55, 0.13, 0.18], [0, 1.86, 0], '#f34652');
   worldProps.add(van);
 }
 
@@ -326,7 +365,6 @@ function makeFallbackCharacter() {
     material('#1765a6')
   );
   torso.position.y = 1.25;
-  torso.castShadow = true;
   body.add(torso);
 
   const head = new THREE.Mesh(
@@ -334,17 +372,17 @@ function makeFallbackCharacter() {
     material('#e9bd9e')
   );
   head.position.y = 1.92;
-  head.castShadow = true;
   body.add(head);
 
   const hair = new THREE.Mesh(
-    new THREE.SphereGeometry(0.26, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.62),
+    new THREE.SphereGeometry(
+      0.26, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.62
+    ),
     material('#49362f')
   );
   hair.position.set(0, 2.0, -0.015);
   body.add(hair);
 
-  const legs = [];
   for (const x of [-0.15, 0.15]) {
     const leg = new THREE.Mesh(
       new THREE.CylinderGeometry(0.105, 0.12, 0.7, 12),
@@ -352,7 +390,6 @@ function makeFallbackCharacter() {
     );
     leg.position.set(x, 0.47, 0);
     body.add(leg);
-    legs.push(leg);
   }
 
   for (const x of [-0.39, 0.39]) {
@@ -367,11 +404,8 @@ function makeFallbackCharacter() {
 
   addBox(body, [0.16, 0.2, 0.035], [0, 1.33, 0.31], '#ffffff');
   body.position.set(-1.5, 0, 0.1);
-  body.userData.isFallback = true;
   characterGroup.add(body);
 }
-
-makeFallbackCharacter();
 
 function makeManikin() {
   const m = new THREE.Group();
@@ -383,7 +417,7 @@ function makeManikin() {
     material('#e4c2a8')
   );
   torso.rotation.z = Math.PI / 2;
-  torso.scale.set(1.0, 0.8, 0.75);
+  torso.scale.set(1, 0.8, 0.75);
   torso.position.set(0, 0.4, 0);
   m.add(torso);
 
@@ -394,15 +428,16 @@ function makeManikin() {
   head.position.set(-0.72, 0.43, 0);
   m.add(head);
 
-  const mat = material('#263f55');
   const legs = new THREE.Mesh(
-    new THREE.BoxGeometry(0.85, 0.18, 0.3), mat
+    new THREE.BoxGeometry(0.85, 0.18, 0.3),
+    material('#263f55')
   );
   legs.position.set(0.82, 0.18, 0);
   m.add(legs);
 
   const arm = new THREE.Mesh(
-    new THREE.BoxGeometry(0.72, 0.12, 0.17), material('#e4c2a8')
+    new THREE.BoxGeometry(0.72, 0.12, 0.17),
+    material('#e4c2a8')
   );
   arm.position.set(-0.03, 0.34, 0.3);
   m.add(arm);
@@ -412,7 +447,7 @@ function makeManikin() {
 
 function makeAED() {
   const device = new THREE.Group();
-  device.position.set(1.0, 0.0, 0.1);
+  device.position.set(1.0, 0, 0.1);
 
   addBox(device, [0.48, 0.62, 0.2], [0, 0.55, 0], '#f8fafc');
   addBox(device, [0.29, 0.12, 0.025], [0, 0.67, 0.112], '#a6e3be');
@@ -433,16 +468,15 @@ function buildEnvironment() {
   worldProps.clear();
   makeAmbulance();
 
-  if (stage >= 1) {
+  if (stage >= 1 && stage <= 3) {
     makeManikin();
   }
 
-  if (stage >= 3) {
+  if (stage === 3) {
     makeAED();
   }
 
-  // Stage-specific camera framing.
-  if (stage === 0) {
+  if (stage === 0 || stage === 4) {
     camera.position.set(0, 2.8, 9.5);
     camera.lookAt(0.4, 1.05, 0);
   } else {
@@ -454,54 +488,54 @@ function buildEnvironment() {
 const stages = [
   {
     label: 'Вступ',
-    eyebrow: 'День перезапуску серця',
+    eyebrow: '16 жовтня · День перезапуску серця',
     title: 'А ти зможеш урятувати?',
-    speech: 'Не колись. Не в теорії. А тут і зараз, коли поруч людина втрачає свідомість, не дихає нормально, а кожна секунда має значення.',
+    speech: 'Поруч людина втрачає свідомість. Вона не дихає нормально. Кожна секунда має значення. Перевір, чи знаєш ти, що робити.',
     button: 'Почати сценарій'
   },
   {
     label: 'Крок 1 із 3',
-    eyebrow: 'Розпізнай небезпеку',
+    eyebrow: 'Безпека та реакція',
     title: 'Людина лежить нерухомо',
-    speech: 'Ти безпечно наблизився до дорослої людини. Вона не реагує на звернення. Що робитимеш?',
+    speech: 'Ти переконався, що місце безпечне. Доросла людина лежить на землі й не реагує на звернення та дотик до плечей. Що робитимеш?',
     choices: [
       {
-        text: 'А. Негайно покличу на допомогу та викличу ЕМД, увімкну гучний зв’язок',
+        text: 'А. Покличу на допомогу, викличу ЕМД на гучному зв’язку й оціню дихання',
         correct: true,
-        explanation: 'Правильно. За ERC 2025, якщо людина не реагує, негайно викликай ЕМД. Увімкни гучний зв’язок і виконуй вказівки диспетчера.'
+        explanation: 'Правильно. Якщо людина не реагує, поклич на допомогу, активуй виклик ЕМД і швидко оціни дихання. Виконуй інструкції диспетчера.'
       },
       {
-        text: 'Б. Залишу людину та піду шукати ліки',
+        text: 'Б. Піду шукати ліки або воду',
         correct: false,
-        explanation: 'Не шукай ліки. Потрібно негайно організувати виклик ЕМД і перейти до оцінювання дихання.'
+        explanation: 'Не залишай людину заради ліків чи води. Потрібно організувати виклик ЕМД і швидко оцінити дихання.'
       },
       {
-        text: 'В. Чекатиму, чи людина сама прийде до тями',
+        text: 'В. Зачекаю, можливо, вона сама отямиться',
         correct: false,
-        explanation: 'Не чекай. Відсутність реакції — підстава негайно викликати допомогу.'
+        explanation: 'Не чекай. Відсутність реакції потребує негайних дій: поклич на допомогу, виклич ЕМД і оціни дихання.'
       }
     ]
   },
   {
     label: 'Крок 2 із 3',
-    eyebrow: 'Оціни дихання',
-    title: 'Людина не реагує',
-    speech: 'Допомогу викликають. Тепер швидко оціни дихання. Людина лише зрідка хапає повітря. Що це означає?',
+    eyebrow: 'Розпізнай зупинку серця',
+    title: 'Людина хапає повітря',
+    speech: 'Людина не реагує. Дихання відсутнє або є лише поодинокі судомні вдихи. Що робитимеш?',
     choices: [
       {
-        text: 'А. Це нормально, треба зачекати',
+        text: 'А. Вважатиму це нормальним диханням і почекаю',
         correct: false,
-        explanation: 'Ні. Рідкісні судомні вдихи або хапання повітря — ненормальне дихання й можуть бути ознакою зупинки кровообігу.'
+        explanation: 'Поодинокі судомні вдихи або хапання повітря — ненормальне дихання. У людини, яка не реагує, це може бути ознакою зупинки серця.'
       },
       {
-        text: 'Б. Підозрюю зупинку кровообігу та негайно починаю СЛР',
+        text: 'Б. Припущу зупинку серця й негайно почну СЛР',
         correct: true,
-        explanation: 'Правильно. Якщо людина не реагує й не дихає нормально, негайно починай СЛР. Якщо сумніваєшся, диспетчер ЕМД допоможе.'
+        explanation: 'Правильно. Якщо людина не реагує й не дихає нормально, підозрюй зупинку серця та негайно починай СЛР. Не затримуй її початок тривалим пошуком пульсу.'
       },
       {
-        text: 'В. Спочатку довго шукатиму пульс',
+        text: 'В. Довго шукатиму пульс, перш ніж щось робити',
         correct: false,
-        explanation: 'Не затримуй початок СЛР тривалою перевіркою пульсу. Для широкої аудиторії ключові ознаки — відсутність реакції та ненормальне дихання.'
+        explanation: 'Не затримуй СЛР тривалим пошуком пульсу. Для непрофесійного рятувальника ключові ознаки — відсутність реакції та ненормальне дихання.'
       }
     ]
   },
@@ -509,49 +543,33 @@ const stages = [
     label: 'Крок 3 із 3',
     eyebrow: 'Компресії та АЗД',
     title: 'Починай СЛР',
-    speech: 'Яка правильна дія для дорослого? Обери найкращий варіант.',
+    speech: 'Яка дія відповідає рекомендаціям для дорослого? Обери найкращий варіант.',
     choices: [
       {
-        text: 'А. Компресії 60–80 за хвилину, глибиною 3–4 см',
+        text: 'А. 60–80 компресій за хвилину, глибиною 3–4 см',
         correct: false,
-        explanation: 'Це недостатня частота й глибина для якісних компресій дорослому.'
+        explanation: 'Частота й глибина недостатні. Дорослому потрібні компресії з частотою 100–120 за хвилину та глибиною 5–6 см.'
       },
       {
-        text: 'Б. Компресії 100–120 за хвилину, глибиною 5–6 см; застосувати АЗД щойно він доступний',
+        text: 'Б. 100–120 за хвилину, глибиною 5–6 см; застосувати АЗД щойно він доступний',
         correct: true,
-        explanation: 'Правильно. Дозволь грудній клітці повністю розправлятися, мінімізуй перерви. Увімкни АЗД, наклей електроди й виконуй його команди. Після аналізу або розряду негайно віднови компресії.'
+        explanation: 'Правильно. Натискай по центру грудної клітки, забезпечуй повне розправлення грудної клітки й мінімізуй перерви. Увімкни АЗД, наклей електроди та виконуй голосові команди. Після розряду або команди не розряджати негайно віднови СЛР.'
       },
       {
         text: 'В. Чекатиму на АЗД і не робитиму компресій',
         correct: false,
-        explanation: 'Не чекай бездіяльно. Починай СЛР і застосуй АЗД, щойно він стане доступним.'
+        explanation: 'Не чекай бездіяльно. Починай СЛР негайно й застосуй АЗД, щойно він стане доступним.'
       }
     ]
   },
   {
-    label: 'Завершення',
-    eyebrow: 'День перезапуску серця · 16 жовтня',
+    label: 'Фініш',
+    eyebrow: 'Твої дії мають значення',
     title: 'А ти вмієш?',
-    speech: 'Бо між зупинкою серця та шансом на життя є ти. І твої дії. Навчися розпізнавати зупинку кровообігу, починати СЛР і застосовувати АЗД.',
+    speech: 'Зупинка серця — це ситуація, у якій важлива кожна секунда. Розпізнай її, виклич допомогу, почни СЛР і застосуй АЗД. Знання потрібно відпрацьовувати практично.',
     button: 'Пройти ще раз'
   }
 ];
-
-function stopAudio() {
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
-    currentAudio = null;
-  }
-}
-
-function playVoice(filename) {
-  stopAudio();
-  currentAudio = new Audio(filename);
-  currentAudio.play().catch(() => {
-    // Audio files will be added later; the game still works without them.
-  });
-}
 
 function showStage() {
   const s = stages[stage];
@@ -562,16 +580,17 @@ function showStage() {
   eyebrow.textContent = s.eyebrow;
   progress.textContent = s.label;
 
-  choicesBox.innerHTML = '';
+  choicesBox.replaceChildren();
   feedback.className = '';
   feedback.textContent = '';
+
   nextButton.style.display = 'block';
-  nextButton.textContent = s.button || 'Далі';
+  nextButton.textContent = s.button || 'Продовжити';
 
   if (s.choices) {
     nextButton.style.display = 'none';
 
-    s.choices.forEach((option, index) => {
+    s.choices.forEach(option => {
       const button = document.createElement('button');
       button.className = 'choice';
       button.textContent = option.text;
@@ -580,17 +599,23 @@ function showStage() {
         if (answered) return;
         answered = true;
 
-        [...choicesBox.children].forEach(b => b.disabled = true);
+        [...choicesBox.children].forEach(b => {
+          b.disabled = true;
+        });
+
         button.classList.add(option.correct ? 'correct' : 'wrong');
 
         feedback.textContent =
-          (option.correct ? '✓ Правильно. ' : 'Пояснення. ') +
+          (option.correct ? '✓ Правильно! ' : 'Не зовсім. ') +
           option.explanation;
-        feedback.className = 'show';
+
+        feedback.className = option.correct
+          ? 'show good'
+          : 'show try-again';
 
         nextButton.style.display = 'block';
         nextButton.textContent =
-          stage === 3 ? 'Завершити гру' : 'Продовжити';
+          stage === 3 ? 'Завершити гру' : 'Наступна сцена';
       });
 
       choicesBox.appendChild(button);
@@ -598,16 +623,6 @@ function showStage() {
   }
 
   buildEnvironment();
-
-  // Optional voice files: upload them later with these exact filenames.
-  const voiceFiles = [
-    'voice-intro.mp3',
-    'voice-q1.mp3',
-    'voice-q2.mp3',
-    'voice-q3.mp3',
-    'voice-end.mp3'
-  ];
-  playVoice(voiceFiles[stage]);
 }
 
 nextButton.addEventListener('click', () => {
@@ -622,50 +637,54 @@ nextButton.addEventListener('click', () => {
   showStage();
 });
 
-// Load your VRM character after avatar.vrm is uploaded to the repository.
+// Завантажуємо твою 3D-персонажку з avatar.vrm
 const loader = new GLTFLoader();
 loader.register(parser => new VRMLoaderPlugin(parser));
 
 loader.load(
   './avatar.vrm',
   gltf => {
-    const loadedVRM = gltf.userData.vrm;
-    if (!loadedVRM) return;
+    vrm = gltf.userData.vrm;
+    if (!vrm) return;
 
-    vrm = loadedVRM;
-
-    // Remove the temporary character and use your own avatar.
     characterGroup.clear();
+
     vrm.scene.position.set(0, 0, 0);
     vrm.scene.rotation.y = Math.PI;
     vrm.scene.scale.setScalar(1);
+
     vrm.scene.traverse(obj => {
       obj.frustumCulled = false;
       if (obj.isMesh) obj.castShadow = true;
     });
+
     characterGroup.add(vrm.scene);
     characterGroup.position.set(-1.5, 0, 0.1);
   },
   undefined,
   error => {
-    console.info('Файл avatar.vrm ще не доданий. Тимчасовий персонаж залишиться на сцені.', error);
+    console.error('Не вдалося завантажити avatar.vrm:', error);
   }
 );
+
+// Тимчасова персонажка, поки завантажується VRM
+makeFallbackCharacter();
 
 const clock = new THREE.Clock();
 
 function animate() {
   requestAnimationFrame(animate);
+
   const delta = clock.getDelta();
 
   if (vrm) vrm.update(delta);
 
-  // Gentle idle movement for the character.
   characterGroup.position.y =
     Math.sin(clock.elapsedTime * 1.5) * 0.018;
 
   renderer.render(scene, camera);
 }
+
 animate();
 
 window.addEventListener('resize', () => {
