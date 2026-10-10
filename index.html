@@ -795,6 +795,12 @@ footer {
   alt="Рятувальниця біля постраждалого та телефон із викликом екстреної допомоги"
   style="display: none; width: 100%; height: auto; object-fit: contain;"
 />
+    <img
+  id="reactionImage"
+  src="./reaction-check.png"
+  alt="Перевірка реакції постраждалого"
+  style="display: none; width: 100%; height: auto; object-fit: contain;"
+/>
 <div class="hazards" id="hazards" aria-label="Можливі небезпеки на місці події">
   <!-- Електрична небезпека -->
   <div class="hazard" title="Електрична небезпека" aria-label="Електрична небезпека">
@@ -1140,6 +1146,7 @@ const panel = document.querySelector(".panel");
 const scene = document.getElementById("scene");
 const sceneImage = document.getElementById("sceneImage");
   const discoveryImage = document.getElementById("discoveryImage");
+  const reactionImage = document.getElementById("reactionImage");
   const callEmergencyImage = document.getElementById("callEmergencyImage");
 const airwayImage = document.getElementById("airwayImage");
 function renderStage() {
