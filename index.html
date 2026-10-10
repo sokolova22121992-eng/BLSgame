@@ -394,7 +394,6 @@ footer {
   .sceneCard { flex: 0 0 auto; }
   .panel { padding: 13px; }
   .answer { font-size: 12px; min-height: 52px; padding: 9px; }
-  .sceneCallout { max-width: 74%; font-size: 11px; padding: 8px; }
 }
 
 @media (max-width: 380px) {
@@ -1101,8 +1100,8 @@ let attempts = 0;
 const counter = document.getElementById("counter");
 const progress = document.getElementById("progress");
 const sceneStatus = document.getElementById("sceneStatus");
-const calloutTitle = document.getElementById("calloutTitle");
-const calloutText = document.getElementById("calloutText");
+
+
 const sceneCaption = document.getElementById("sceneCaption");
 const sceneArrow = document.getElementById("sceneArrow");
 const eyebrow = document.getElementById("eyebrow");
@@ -1155,8 +1154,7 @@ console.log("Етап:", currentStage, "Зображення:", discoveryImage);
   counter.textContent = `Етап ${currentStage + 1} із ${stages.length}`;
   progress.style.width = `${((currentStage + 1) / stages.length) * 100}%`;
   sceneStatus.textContent = stage.status;
-  calloutTitle.textContent = stage.calloutTitle;
-  calloutText.textContent = stage.calloutText;
+ 
   sceneCaption.textContent = stage.caption;
   sceneArrow.textContent = stage.arrow;
 
