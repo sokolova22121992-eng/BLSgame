@@ -573,7 +573,57 @@ footer {
     animation: none;
   }
 }
+.survey-arrows {
+  display: none;
+  position: absolute;
+  left: 14%;
+  top: 19%;
+  width: 150px;
+  height: 90px;
+  z-index: 5;
+  pointer-events: none;
+}
 
+.survey-arrows.visible {
+  display: block;
+}
+
+.survey-arrow {
+  position: absolute;
+  color: #1769aa;
+  font-size: 32px;
+  font-weight: 900;
+  text-shadow: 0 2px 5px white;
+  animation: surveyLook 1s ease-in-out infinite alternate;
+}
+
+.arrow-left {
+  left: 0;
+  top: 25px;
+}
+
+.arrow-up {
+  left: 55px;
+  top: 0;
+  animation-delay: .2s;
+}
+
+.arrow-right {
+  left: 105px;
+  top: 25px;
+  animation-delay: .4s;
+}
+
+@keyframes surveyLook {
+  from {
+    transform: translateY(0);
+    opacity: .65;
+  }
+  to {
+    transform: translateY(-7px);
+    opacity: 1;
+  }
+}
 </style>
 </head>
 
@@ -849,7 +899,11 @@ footer {
     </svg>
   </div>
 </div>
-
+<div id="surveyArrows" class="survey-arrows" aria-hidden="true">
+  <span class="survey-arrow arrow-left">↖</span>
+  <span class="survey-arrow arrow-up">↑</span>
+  <span class="survey-arrow arrow-right">↗</span>
+</div>
    
   </div>
 </section>
