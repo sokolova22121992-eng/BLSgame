@@ -675,6 +675,13 @@ footer {
       </g>
     </svg>
 
+    <img
+      id="sceneImage"
+      src="./cpr-scene.png"
+      alt="Виконання компресій грудної клітки дорослому постраждалому"
+      style="display: none; width: 100%; aspect-ratio: 900 / 430; object-fit: cover;"
+    />
+
     <div class="sceneCallout" id="sceneCallout">
       <strong id="calloutTitle">Твоя зміна починається</strong>
       <span id="calloutText">Ти бачиш людину, яка лежить на землі. Що робитимеш?</span>
@@ -947,11 +954,20 @@ const retryButton = document.getElementById("retryButton");
 const restartButton = document.getElementById("restartButton");
 const panel = document.querySelector(".panel");
 
+const scene = document.getElementById("scene");
+const sceneImage = document.getElementById("sceneImage");
+
 function renderStage() {
   answered = false;
   attempts = 0;
 
   const stage = stages[currentStage];
+  
+  const isCPRStage = currentStage === 4;
+
+  scene.style.display = isCPRStage ? "none" : "";
+  sceneImage.style.display = isCPRStage ? "block" : "none";
+
 
   counter.textContent = `Етап ${currentStage + 1} із ${stages.length}`;
   progress.style.width = `${((currentStage + 1) / stages.length) * 100}%`;
