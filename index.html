@@ -605,8 +605,7 @@ footer {
 .arrow-up {
   left: 10px;
   top: -35px;
-  transform: rotate(-30deg);
-  animation: surveyLook 1s ease-in-out infinite alternate;
+  animation: surveyLookTilted 1s ease-in-out infinite alternate;
   animation-delay: .2s;
 }
 
@@ -623,6 +622,16 @@ footer {
   }
   to {
     transform: translateY(-7px);
+    opacity: 1;
+  }
+}
+  @keyframes surveyLookTilted {
+  from {
+    transform: translateY(0) rotate(-30deg);
+    opacity: .65;
+  }
+  to {
+    transform: translateY(-7px) rotate(-30deg);
     opacity: 1;
   }
 }
