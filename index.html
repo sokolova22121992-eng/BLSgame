@@ -150,11 +150,16 @@ header {
   overflow: hidden;
 }
 
-#scene {
+
+#scene,
+.sceneWrap > img {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 900 / 430;
+  object-fit: contain;
 }
+
 
 .sceneCallout {
   position: absolute;
