@@ -1127,6 +1127,7 @@ const panel = document.querySelector(".panel");
 const scene = document.getElementById("scene");
 const sceneImage = document.getElementById("sceneImage");
   const discoveryImage = document.getElementById("discoveryImage");
+  const callEmergencyImage = document.getElementById("callEmergencyImage");
 const airwayImage = document.getElementById("airwayImage");
 function renderStage() {
   answered = false;
@@ -1137,6 +1138,7 @@ const stage = stages[currentStage];
 const isCPRStage = currentStage === 5;
 const isAirwayStage = currentStage === 4;
 const isDiscoveryStage = currentStage === 0 || currentStage === 1;
+const isCallEmergencyStage = currentStage === 2;
   
 const hazards = document.getElementById("hazards");
 hazards.classList.toggle("visible", currentStage === 1);
@@ -1148,6 +1150,8 @@ hazards.classList.toggle("visible", currentStage === 1);
 sceneImage.style.display = isCPRStage ? "block" : "none";
 airwayImage.style.display = isAirwayStage ? "block" : "none";
 discoveryImage.style.display = isDiscoveryStage ? "block" : "none";
+  callEmergencyImage.style.display =
+  isCallEmergencyStage ? "block" : "none";
 
 console.log("Етап:", currentStage, "Зображення:", discoveryImage);
 
