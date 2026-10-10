@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#eaf4ff">
-<title>BLS — інтерактивний сценарій</title>
+<title>BLS INTERACTIVE — навчальний сценарій</title>
 
 <style>
 :root {
@@ -18,15 +19,12 @@
 
 * { box-sizing: border-box; }
 
-html { min-height: 100%; }
-
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   color: var(--text);
   background: linear-gradient(145deg, #edf5ff, #dce9f7);
   min-height: 100vh;
-  min-height: 100dvh;
 }
 
 button { font: inherit; }
@@ -34,21 +32,18 @@ button { font: inherit; }
 .app {
   width: min(100%, 1440px);
   min-height: 100vh;
-  min-height: 100dvh;
-  margin: 0 auto;
+  margin: auto;
   padding: 12px 16px 8px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
 }
 
-/* HEADER */
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  flex-shrink: 0;
 }
 
 .brandBlock {
@@ -59,8 +54,8 @@ header {
 }
 
 .header-avatar {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -83,7 +78,7 @@ header {
 .counter {
   white-space: nowrap;
   border: 1px solid #c2d7ec;
-  background: #fff;
+  background: white;
   border-radius: 30px;
   padding: 8px 12px;
   font-size: 12px;
@@ -91,8 +86,7 @@ header {
 }
 
 .progress {
-  height: 5px;
-  flex-shrink: 0;
+  height: 6px;
   background: #cfdeed;
   border-radius: 8px;
   overflow: hidden;
@@ -100,33 +94,28 @@ header {
 
 .progressFill {
   height: 100%;
-  width: 16.66%;
+  width: 16.666%;
   background: linear-gradient(90deg, #2c8bd3, #14528e);
   transition: width .3s;
 }
 
-/* ОСНОВНЕ РОЗТАШУВАННЯ */
 .workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
   gap: 12px;
   flex: 1;
   min-height: 0;
-  align-items: stretch;
 }
 
-.sceneCard,
-.panel {
+.sceneCard, .panel {
   min-width: 0;
-  min-height: 0;
-  background: #fff;
+  background: white;
   border: 1px solid #d1e0ef;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 28px #234b7010;
 }
 
-/* СЦЕНА */
 .sceneCard {
   display: flex;
   flex-direction: column;
@@ -137,10 +126,9 @@ header {
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  padding: 10px 13px;
+  padding: 11px 14px;
   background: #f7fbff;
   border-bottom: 1px solid #e1eaf3;
-  flex-shrink: 0;
 }
 
 .sceneLabel {
@@ -156,13 +144,9 @@ header {
 }
 
 .sceneWrap {
+  position: relative;
   width: 100%;
-  flex: 1;
-  min-height: 0;
   background: #e5edf1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
@@ -170,27 +154,60 @@ header {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 100%;
-  aspect-ratio: 900 / 350;
+}
+
+.sceneCallout {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  max-width: 68%;
+  background: rgba(255,255,255,.96);
+  border: 2px solid #3988c8;
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 5px 16px #16365325;
+  font-size: 12px;
+  line-height: 1.4;
+  z-index: 2;
+}
+
+.sceneCallout strong {
+  display: block;
+  color: #1769aa;
+  margin-bottom: 3px;
+}
+
+.sceneArrow {
+  position: absolute;
+  right: 18%;
+  bottom: 16%;
+  z-index: 2;
+  color: #1769aa;
+  font-size: 34px;
+  font-weight: 900;
+  text-shadow: 0 2px white;
+  animation: point 1s infinite alternate;
+}
+
+@keyframes point {
+  from { transform: translateY(0); }
+  to { transform: translateY(-7px); }
 }
 
 .sceneCaption {
   background: #f7fbff;
-  padding: 9px 12px;
+  padding: 10px 12px;
   font-size: 12px;
-  line-height: 1.4;
+  line-height: 1.45;
   color: #526b82;
   border-top: 1px solid #e2ebf4;
-  flex-shrink: 0;
 }
 
-/* ПАНЕЛЬ ЗАПИТАНЬ */
 .panel {
-  padding: clamp(13px, 1.5vw, 22px);
+  padding: clamp(14px, 1.7vw, 23px);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  overscroll-behavior: contain;
 }
 
 .eyebrow {
@@ -199,53 +216,48 @@ header {
   color: var(--blue);
   letter-spacing: 1px;
   margin-bottom: 7px;
-  flex-shrink: 0;
 }
 
 h1 {
-  font-size: clamp(18px, 1.8vw, 25px);
+  font-size: clamp(19px, 2vw, 27px);
   line-height: 1.23;
-  margin: 0 0 7px;
-  flex-shrink: 0;
+  margin: 0 0 8px;
 }
 
 .questionHint {
   color: #647b90;
-  font-size: 12px;
-  line-height: 1.4;
-  margin-bottom: 12px;
-  flex-shrink: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 14px;
 }
 
 .answers {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 9px;
 }
 
 .answer {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 9px;
   text-align: left;
-  padding: 10px;
+  padding: 11px;
   border: 1.5px solid #d7e3ef;
-  border-radius: 10px;
-  background: #fff;
+  border-radius: 11px;
+  background: white;
   color: var(--text);
-  font-size: 12px;
-  line-height: 1.35;
+  font-size: 13px;
+  line-height: 1.4;
   cursor: pointer;
-  min-height: 52px;
-  transition: border-color .15s, background .15s, transform .15s;
+  min-height: 60px;
+  transition: border-color .15s, background .15s;
 }
 
 .answer:hover {
   border-color: #6da8db;
   background: #f5faff;
 }
-
-.answer:active { transform: scale(.99); }
 
 .answer:focus-visible,
 .primary:focus-visible,
@@ -255,8 +267,8 @@ h1 {
 }
 
 .letter {
-  flex: 0 0 23px;
-  height: 23px;
+  flex: 0 0 24px;
+  height: 24px;
   display: grid;
   place-items: center;
   border-radius: 7px;
@@ -290,12 +302,11 @@ h1 {
 
 .feedback {
   display: none;
-  margin-top: 10px;
-  padding: 11px;
+  margin-top: 12px;
+  padding: 12px;
   border-radius: 10px;
-  line-height: 1.45;
-  font-size: 12px;
-  flex-shrink: 0;
+  line-height: 1.5;
+  font-size: 13px;
 }
 
 .feedback.show { display: block; }
@@ -312,22 +323,20 @@ h1 {
 
 .feedback strong {
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-  flex-shrink: 0;
+  gap: 9px;
+  margin-top: 12px;
 }
 
-.primary,
-.secondary {
+.primary, .secondary {
   border: 0;
   border-radius: 10px;
-  padding: 11px 14px;
+  padding: 12px 15px;
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
@@ -335,7 +344,7 @@ h1 {
 
 .primary {
   background: var(--blue);
-  color: #fff;
+  color: white;
 }
 
 .primary:hover { background: #10588f; }
@@ -347,15 +356,13 @@ h1 {
 
 .hidden { display: none !important; }
 
-/* ДИСКЛЕЙМЕР */
 .learningNote {
-  flex-shrink: 0;
   background: #e9f1f9;
   border: 1px solid #cfdeec;
   border-radius: 11px;
-  padding: 9px 13px;
+  padding: 10px 13px;
   font-size: 11px;
-  line-height: 1.4;
+  line-height: 1.5;
   color: #405d77;
 }
 
@@ -363,12 +370,10 @@ h1 {
   display: block;
   color: #173e62;
   font-size: 12px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
-/* ПІДПИС РОЗРОБНИКА */
 footer {
-  flex-shrink: 0;
   display: flex;
   justify-content: flex-end;
   color: #72869a;
@@ -376,205 +381,44 @@ footer {
   padding: 0 2px 1px;
 }
 
-/* НИЗЬКІ ЕКРАНИ НОУТБУКІВ */
-@media (min-width: 850px) and (max-height: 800px) {
-  .app {
-    padding: 8px 12px 5px;
-    gap: 6px;
-  }
-
-  .workspace { gap: 9px; }
-
-  .sceneTop { padding: 7px 11px; }
-
-  .sceneCaption {
-    padding: 6px 10px;
-    font-size: 11px;
-  }
-
-  .panel { padding: 12px; }
-
-  h1 { font-size: 19px; }
-
-  .questionHint { margin-bottom: 8px; }
-
-  .answer {
-    min-height: 44px;
-    padding: 8px;
-    font-size: 11px;
-  }
-
-  .learningNote { padding: 7px 10px; }
+.resultNumber {
+  font-size: 46px;
+  font-weight: 900;
+  color: #1769aa;
+  margin: 12px 0;
 }
 
-/* ТЕЛЕФОНИ ТА ВУЗЬКІ ЕКРАНИ */
+.resultBox {
+  background: #f1f7fd;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 10px;
+}
+
 @media (max-width: 849px) {
-  .app {
-    padding: 8px;
-    gap: 7px;
-  }
-
-  .workspace {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-  }
-
+  .app { padding: 8px; gap: 8px; }
+  .workspace { display: flex; flex-direction: column; }
   .sceneCard { flex: 0 0 auto; }
-
-  .sceneWrap { flex: 0 0 auto; }
-
-  #scene {
-    width: 100%;
-    height: auto;
-    max-height: none;
-  }
-
-  .sceneTop { padding: 7px 10px; }
-
-  .sceneCaption {
-    padding: 7px 10px;
-    font-size: 11px;
-  }
-
-  .panel {
-    flex: 1;
-    padding: 12px;
-    overflow-y: auto;
-  }
-
-  .eyebrow { margin-bottom: 5px; }
-
-  h1 {
-    font-size: clamp(17px, 4.5vw, 22px);
-    margin-bottom: 6px;
-  }
-
-  .questionHint {
-    font-size: 11px;
-    margin-bottom: 8px;
-  }
-
-  .answers {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
-  }
-
-  .answer {
-    padding: 8px;
-    gap: 6px;
-    min-height: 0;
-    font-size: 11px;
-    line-height: 1.3;
-  }
-
-  .letter {
-    flex-basis: 21px;
-    height: 21px;
-    font-size: 11px;
-  }
-
-  .feedback {
-    margin-top: 8px;
-    padding: 9px;
-    font-size: 11px;
-  }
-
-  .actions { margin-top: 8px; }
-
-  .primary,
-  .secondary {
-    padding: 10px;
-    font-size: 12px;
-  }
-
-  .learningNote {
-    padding: 8px 10px;
-    font-size: 10px;
-    line-height: 1.35;
-  }
-
-  .learningNote strong { font-size: 11px; }
-
-  footer { font-size: 9px; }
+  .panel { padding: 13px; }
+  .answer { font-size: 12px; min-height: 52px; padding: 9px; }
+  .sceneCallout { max-width: 74%; font-size: 11px; padding: 8px; }
 }
 
-/* ДУЖЕ ВУЗЬКІ ТЕЛЕФОНИ */
 @media (max-width: 380px) {
-  .app {
-    padding: 6px;
-    gap: 6px;
-  }
-
+  .app { padding: 6px; }
   .brand { font-size: 17px; }
-
-  .subtitle {
-    max-width: 200px;
-    font-size: 10px;
-  }
-
-  .counter {
-    padding: 7px 8px;
-    font-size: 10px;
-  }
-
-  .sceneStatus { font-size: 10px; }
-
-  .panel { padding: 9px; }
-
-  .answer {
-    font-size: 10px;
-    padding: 7px;
-  }
-
+  .subtitle { max-width: 175px; font-size: 10px; }
+  .header-avatar { width: 38px; height: 38px; }
   .brandBlock { gap: 8px; }
-
-  .header-avatar {
-    width: 38px;
-    height: 38px;
-  }
-}
-
-/* ЗМЕНШЕНА ВИСОТА МОБІЛЬНОГО ЕКРАНА */
-@media (max-width: 849px) and (max-height: 760px) {
-  .app {
-    gap: 5px;
-    padding: 5px;
-  }
-
-  .workspace { gap: 5px; }
-
-  .sceneTop { padding: 5px 8px; }
-
-  .sceneCaption {
-    padding: 5px 8px;
-    font-size: 10px;
-  }
-
-  .panel { padding: 8px; }
-
-  h1 { font-size: 16px; }
-
-  .questionHint { margin-bottom: 6px; }
-
-  .answer {
-    padding: 6px;
-    font-size: 10px;
-  }
-
-  .learningNote {
-    padding: 6px 8px;
-    font-size: 9px;
-  }
+  .counter { padding: 7px 8px; font-size: 10px; }
+  .answer { font-size: 11px; padding: 7px; gap: 6px; }
+  .letter { flex-basis: 21px; height: 21px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
+  *, *::before, *::after {
     transition: none !important;
+    animation: none !important;
   }
 }
 </style>
@@ -607,10 +451,569 @@ footer {
   </div>
 
   <div class="sceneWrap">
-    <svg id="scene" viewBox="0 0 900 350" role="img"
-      aria-label="Перехожий біля дорослого постраждалого, який лежить на спині">
+    <svg id="scene" viewBox="0 0 900 430" role="img"
+      aria-label="Навчальна ілюстрація надання допомоги дорослому постраждалому">
 
       <defs>
-        <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#e5edf0"/>
-          <stop offset="100%"
+        <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#edf3f5"/>
+          <stop offset="100%" stop-color="#cbd9e0"/>
+        </linearGradient>
+        <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#4398e2"/>
+          <stop offset="100%" stop-color="#1769aa"/>
+        </linearGradient>
+        <linearGradient id="trousers" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#344b68"/>
+          <stop offset="100%" stop-color="#172c45"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="900" height="430" fill="url(#floor)"/>
+      <path d="M0 320 L900 250 L900 430 L0 430Z" fill="#d1dfe5"/>
+      <path d="M0 360 L900 290" stroke="#bdcdd5" stroke-width="3"/>
+      <path d="M0 400 L900 330" stroke="#bdcdd5" stroke-width="2"/>
+
+      <!-- Тінь постраждалого -->
+      <ellipse cx="460" cy="315" rx="270" ry="58" fill="#647b8a" opacity=".17"/>
+
+      <!-- Ноги постраждалого -->
+      <path d="M495 272 L650 298 L755 335 Q775 346 764 361
+               Q754 374 735 364 L624 333 L478 310Z"
+            fill="url(#trousers)" stroke="#263b52" stroke-width="5"/>
+      <path d="M472 291 L590 329 L655 373 Q669 386 655 398
+               Q640 408 625 394 L553 354 L439 325Z"
+            fill="#273f5b" stroke="#263b52" stroke-width="5"/>
+
+      <!-- Взуття -->
+      <path d="M730 344 Q760 333 775 355 L789 370
+               Q791 382 775 384 L735 378 Q721 366 730 344Z"
+            fill="#202b36" stroke="#17212c" stroke-width="4"/>
+      <path d="M625 378 Q648 364 665 384 L680 399
+               Q683 412 665 413 L628 408 Q614 398 625 378Z"
+            fill="#202b36" stroke="#17212c" stroke-width="4"/>
+
+      <!-- Рука постраждалого -->
+      <path d="M425 220 L350 267 L304 295"
+            stroke="#d9a17d" stroke-width="27" stroke-linecap="round" fill="none"/>
+      <path d="M304 295 L280 298"
+            stroke="#d9a17d" stroke-width="22" stroke-linecap="round" fill="none"/>
+
+      <!-- Тулуб -->
+      <path d="M410 172 Q450 151 493 177 L535 254
+               L498 304 L412 290 L375 230Z"
+            fill="url(#shirt)" stroke="#174c7b" stroke-width="5"/>
+      <path d="M434 175 L451 224 L474 178"
+            fill="none" stroke="#8ec8f2" stroke-width="6" opacity=".8"/>
+
+      <!-- Голова -->
+      <ellipse cx="381" cy="165" rx="43" ry="39"
+               fill="#d9a17d" stroke="#a86f50" stroke-width="4"/>
+      <path d="M342 160 Q337 121 374 121 Q415 120 424 151
+               L408 142 L390 137 L370 145 L355 162Z"
+            fill="#46352e" stroke="#33251f" stroke-width="4"/>
+      <path d="M355 168 L368 168 M391 168 L404 168"
+            stroke="#533b31" stroke-width="4" stroke-linecap="round"/>
+      <path d="M373 184 Q383 190 395 182"
+            fill="none" stroke="#8e4c42" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- Рука ближня -->
+      <path d="M481 192 L540 231 L575 244"
+            stroke="#d9a17d" stroke-width="27" stroke-linecap="round" fill="none"/>
+      <path d="M575 244 L597 238"
+            stroke="#d9a17d" stroke-width="22" stroke-linecap="round" fill="none"/>
+
+      <!-- Рятувальник: ноги -->
+      <path d="M165 290 L210 290 L233 375 L200 381 L167 326Z"
+            fill="#1e3853" stroke="#14283d" stroke-width="5"/>
+      <path d="M222 288 L263 285 L278 365 L247 375 L221 326Z"
+            fill="#263f5b" stroke="#14283d" stroke-width="5"/>
+      <path d="M195 375 L233 375 L237 392 L181 397 Q171 387 195 375Z"
+            fill="#1c2b3a" stroke="#14283d" stroke-width="4"/>
+      <path d="M247 365 L278 365 L293 386 L246 394 Q233 385 247 365Z"
+            fill="#1c2b3a" stroke="#14283d" stroke-width="4"/>
+
+      <!-- Рятувальник: тулуб -->
+      <path d="M154 174 Q183 155 218 175 L253 250
+               L237 303 L157 299 L136 235Z"
+            fill="url(#shirt)" stroke="#174c7b" stroke-width="5"/>
+      <path d="M181 177 L192 215 L209 177"
+            fill="none" stroke="#a9d9f8" stroke-width="5"/>
+
+      <!-- Рятувальник: руки -->
+      <path d="M153 195 L124 245 L151 270"
+            stroke="#d9a17d" stroke-width="25" stroke-linecap="round" fill="none"/>
+      <path d="M230 197 L270 229 L292 249"
+            stroke="#d9a17d" stroke-width="25" stroke-linecap="round" fill="none"/>
+
+      <!-- Сині рукавички -->
+      <path d="M142 259 Q151 248 164 262 L168 279
+               Q158 293 146 281Z"
+            fill="#1769aa" stroke="#104a7a" stroke-width="4"/>
+      <path d="M283 241 Q293 231 306 245 L309 262
+               Q300 274 286 264Z"
+            fill="#1769aa" stroke="#104a7a" stroke-width="4"/>
+
+      <!-- Голова рятувальника -->
+      <ellipse cx="189" cy="140" rx="36" ry="39"
+               fill="#d9a17d" stroke="#a86f50" stroke-width="4"/>
+      <path d="M153 139 Q150 98 188 98 Q222 99 226 131
+               L208 117 L184 119 L164 137Z"
+            fill="#46352e" stroke="#33251f" stroke-width="4"/>
+      <path d="M173 143 L181 143 M197 143 L205 143"
+            stroke="#533b31" stroke-width="4" stroke-linecap="round"/>
+
+      <!-- Значок медичної допомоги -->
+      <circle cx="194" cy="231" r="19" fill="#ffffff" stroke="#1769aa" stroke-width="3"/>
+      <path d="M190 218 H198 V227 H207 V235 H198 V244 H190 V235 H181 V227 H190Z"
+            fill="#d83b46"/>
+
+      <!-- AED на підлозі -->
+      <g id="aedIllustration" opacity=".85">
+        <rect x="660" y="65" width="105" height="75" rx="10"
+              fill="#f8fbff" stroke="#1769aa" stroke-width="4"/>
+        <rect x="673" y="77" width="40" height="28" rx="4" fill="#cde9fa"/>
+        <path d="M693 80 L683 94 H692 L688 102 L704 88 H695Z" fill="#1769aa"/>
+        <circle cx="737" cy="91" r="8" fill="#28a05b"/>
+        <path d="M685 117 Q700 133 718 117" stroke="#1769aa"
+              stroke-width="4" fill="none" stroke-linecap="round"/>
+        <text x="714" y="158" font-size="13" font-weight="800"
+              fill="#1769aa" text-anchor="middle">AED</text>
+      </g>
+    </svg>
+
+    <div class="sceneCallout" id="sceneCallout">
+      <strong id="calloutTitle">Твоя зміна починається</strong>
+      <span id="calloutText">Ти бачиш людину, яка лежить на землі. Що робитимеш?</span>
+    </div>
+    <div class="sceneArrow" id="sceneArrow" aria-hidden="true">↙</div>
+  </div>
+
+  <div class="sceneCaption" id="sceneCaption">
+    Оціни ситуацію. Обирай дію, а після відповіді прочитай пояснення.
+  </div>
+</section>
+
+<section class="panel" aria-live="polite">
+  <div class="eyebrow" id="eyebrow">ЕТАП 1 · БЕЗПЕКА</div>
+  <h1 id="question">Ти бачиш людину, яка лежить на землі. З чого почнеш?</h1>
+  <div class="questionHint" id="questionHint">
+    Перед наданням допомоги потрібно переконатися, що місце безпечне для тебе, постраждалого та оточення.
+  </div>
+
+  <div class="answers" id="answers"></div>
+
+  <div class="feedback" id="feedback" role="status"></div>
+
+  <div class="actions">
+    <button class="primary hidden" id="nextButton" type="button">
+      Наступний етап →
+    </button>
+    <button class="secondary hidden" id="retryButton" type="button">
+      Спробувати ще раз
+    </button>
+    <button class="secondary" id="restartButton" type="button">
+      Почати спочатку
+    </button>
+  </div>
+</section>
+
+</div>
+
+<aside class="learningNote">
+  <strong>Навчальний дисклеймер</strong>
+  Інтерактивний сценарій призначений для закріплення теоретичних знань і не замінює практичного навчання, відпрацювання навичок на манекені та оцінювання якості виконання реанімаційних заходів. У реальній ситуації дій відповідно до чинних протоколів і вказівок диспетчера.
+</aside>
+
+<footer>Розробник: Анна Соколова</footer>
+</div>
+
+<script>
+"use strict";
+
+const stages = [
+  {
+    title: "Безпека місця події",
+    eyebrow: "ЕТАП 1 · БЕЗПЕКА",
+    status: "Оціни ситуацію",
+    question: "Ти бачиш людину, яка лежить на землі. З чого почнеш?",
+    hint: "Перш ніж наближатися, оціни можливі небезпеки для себе, постраждалого та оточення.",
+    calloutTitle: "Зупинись і оціни",
+    calloutText: "Чи безпечно наближатися до постраждалого?",
+    caption: "Переконайся, що немає руху транспорту, електричної небезпеки, вогню чи інших загроз.",
+    arrow: "↙",
+    answers: [
+      {
+        text: "Перевірю безпеку місця події",
+        correct: true,
+        feedback: "Правильно. Спочатку оціни небезпеку. Не наражай себе та інших на ризик."
+      },
+      {
+        text: "Одразу почну натискання на грудну клітку",
+        correct: false,
+        feedback: "Не можна ігнорувати небезпеку. Спочатку переконайся, що можеш безпечно наблизитися."
+      },
+      {
+        text: "Спочатку шукатиму документи людини",
+        correct: false,
+        feedback: "Документи не є першочерговим завданням. Спочатку безпека, потім оцінка стану."
+      },
+      {
+        text: "Залишу людину й піду шукати її родичів",
+        correct: false,
+        feedback: "Не відкладай оцінку стану та надання допомоги через пошук родичів."
+      }
+    ]
+  },
+  {
+    title: "Перевірка реакції",
+    eyebrow: "ЕТАП 2 · РЕАКЦІЯ",
+    status: "Перевір стан людини",
+    question: "Місце безпечне. Як перевіриш реакцію дорослого постраждалого?",
+    hint: "Почни з голосового звернення та обережної тактильної стимуляції.",
+    calloutTitle: "Чи реагує людина?",
+    calloutText: "Звернись голосно та обережно потряси за плечі.",
+    caption: "Голосно звернися до людини: «Ви мене чуєте? З вами все гаразд?» Обережно торкнися плечей.",
+    arrow: "↙",
+    answers: [
+      {
+        text: "Голосно звернуся й обережно потрясу за плечі",
+        correct: true,
+        feedback: "Правильно. Голосове звернення та обережна стимуляція допомагають оцінити реакцію."
+      },
+      {
+        text: "Одразу почну перевіряти пульс протягом хвилини",
+        correct: false,
+        feedback: "Для базової оцінки реакції почни зі звернення та стимуляції. Не затримуй подальші дії."
+      },
+      {
+        text: "Сильно вдарю людину по обличчю",
+        correct: false,
+        feedback: "Больові чи травматичні дії не потрібні. Використовуй голосове звернення та обережну стимуляцію."
+      },
+      {
+        text: "Посаджу людину, не перевіряючи реакції",
+        correct: false,
+        feedback: "Не переміщуй людину без потреби. Спочатку оціни її реакцію та дихання."
+      }
+    ]
+  },
+  {
+    title: "Виклик допомоги",
+    eyebrow: "ЕТАП 3 · 103 ТА AED",
+    status: "Поклич допомогу",
+    question: "Постраждалий не реагує. Що робитимеш далі?",
+    hint: "Потрібна допомога екстреної медичної служби та доступ до автоматичного зовнішнього дефібрилятора, якщо він є.",
+    calloutTitle: "Не залишайся наодинці",
+    calloutText: "Поклич людей поруч і організуй виклик допомоги.",
+    caption: "Попроси конкретну людину викликати 103 або 112 та принести AED. Якщо ти сам/сама — телефонуй на гучному зв'язку.",
+    arrow: "↙",
+    answers: [
+      {
+        text: "Покличу допомогу, організую виклик 103/112 і попрошу принести AED",
+        correct: true,
+        feedback: "Правильно. Активуй систему екстреної допомоги та організуй якнайшвидше доставлення AED. Виконуй вказівки диспетчера."
+      },
+      {
+        text: "Спочатку чекатиму, чи людина самостійно прокинеться",
+        correct: false,
+        feedback: "Не чекай бездіяльно. Відсутність реакції потребує негайної оцінки дихання та залучення допомоги."
+      },
+      {
+        text: "Відразу шукатиму ліки в сумці постраждалого",
+        correct: false,
+        feedback: "Пошук ліків не замінює виклик допомоги та оцінку дихання."
+      },
+      {
+        text: "Піду самостійно шукати AED, нічого нікому не сказавши",
+        correct: false,
+        feedback: "Організуй допомогу й розподіли завдання. Не залишай постраждалого без потреби."
+      }
+    ]
+  },
+  {
+    title: "Оцінка дихання",
+    eyebrow: "ЕТАП 4 · ДИХАННЯ",
+    status: "Оціни дихання",
+    question: "Людина не реагує. Як правильно оцінити дихання?",
+    hint: "Важливо відрізнити нормальне дихання від поодиноких агональних вдихів.",
+    calloutTitle: "Не витрачай час",
+    calloutText: "Відкрий дихальні шляхи й оціни дихання.",
+    caption: "Відкрий дихальні шляхи та оціни, чи дихає людина нормально. Агональні вдихи не є нормальним диханням.",
+    arrow: "↙",
+    answers: [
+      {
+        text: "Відкрию дихальні шляхи й оціню дихання не довше 10 секунд",
+        correct: true,
+        feedback: "Правильно. Якщо людина не реагує і не дихає нормально або має лише агональні вдихи, вважай це зупинкою кровообігу та негайно починай СЛР."
+      },
+      {
+        text: "Перевірятиму дихання щонайменше одну хвилину",
+        correct: false,
+        feedback: "Тривала оцінка затримує реанімацію. Перевірка дихання має тривати не довше 10 секунд."
+      },
+      {
+        text: "Якщо є поодинокі судомні вдихи, це нормальне дихання",
+        correct: false,
+        feedback: "Агональні вдихи можуть виникати при зупинці кровообігу й не вважаються нормальним диханням."
+      },
+      {
+        text: "Спочатку довго шукатиму пульс, не оцінюючи дихання",
+        correct: false,
+        feedback: "У базовому алгоритмі не затримуй початок СЛР тривалим пошуком пульсу. Оціни реакцію та нормальність дихання."
+      }
+    ]
+  },
+  {
+    title: "Серцево-легенева реанімація",
+    eyebrow: "ЕТАП 5 · СЛР",
+    status: "Почни реанімацію",
+    question: "Постраждалий не реагує та не дихає нормально. Які твої дії?",
+    hint: "Для дорослого стандартна базова СЛР поєднує компресії грудної клітки та рятувальні вдихи, якщо ти навчений/навчена їх виконувати.",
+    calloutTitle: "Дій без затримки",
+    calloutText: "Починай якісні компресії грудної клітки.",
+    caption: "Для дорослого: 100–120 компресій за хвилину, глибина 5–6 см, повне розправлення грудної клітки. Якщо навчений/навчена — співвідношення 30:2.",
+    arrow: "↙",
+    answers: [
+      {
+        text: "Почну СЛР: 30 компресій і 2 вдихи, якщо вмію їх виконувати",
+        correct: true,
+        feedback: "Правильно. Для дорослого виконуй компресії з частотою 100–120/хв і глибиною 5–6 см. Якщо навчений/навчена та можеш виконувати вдихи — використовуй співвідношення 30:2. Інакше виконуй безперервні компресії за вказівками диспетчера."
+      },
+      {
+        text: "Зроблю лише два вдихи й чекатиму на результат",
+        correct: false,
+        feedback: "Два вдихи без компресій не забезпечують необхідного кровообігу. Починай компресії без затримки."
+      },
+      {
+        text: "Натискатиму повільно, приблизно 40 разів за хвилину",
+        correct: false,
+        feedback: "Це надто повільно. Рекомендована частота компресій для дорослого — 100–120 за хвилину."
+      },
+      {
+        text: "Зупинятиму компресії після кожних кількох натискань",
+        correct: false,
+        feedback: "Часті та тривалі перерви зменшують ефективність СЛР. Мінімізуй перерви та дотримуйся належної техніки."
+      }
+    ]
+  },
+  {
+    title: "Автоматичний зовнішній дефібрилятор",
+    eyebrow: "ЕТАП 6 · AED",
+    status: "Використай AED",
+    question: "AED принесли на місце. Як діяти?",
+    hint: "Пристрій аналізує ритм і повідомляє, чи рекомендований розряд. Не торкайся постраждалого під час аналізу та розряду.",
+    calloutTitle: "Увімкни AED",
+    calloutText: "Виконуй голосові й візуальні команди пристрою.",
+    caption: "Увімкни AED, наклей електроди на оголену грудну клітку відповідно до малюнків і дотримуйся команд пристрою.",
+    arrow: "↙",
+    answers: [
+      {
+        text: "Увімкну AED, наклею електроди та виконуватиму його команди",
+        correct: true,
+        feedback: "Правильно. Не торкайся постраждалого під час аналізу ритму та розряду. Після розряду або команди продовжити СЛР негайно віднови компресії."
+      },
+      {
+        text: "Торкнуся постраждалого під час аналізу, щоб перевірити реакцію",
+        correct: false,
+        feedback: "Під час аналізу ніхто не повинен торкатися постраждалого, оскільки це може завадити оцінці ритму."
+      },
+      {
+        text: "Чекатиму на бригаду ЕМД, не починаючи СЛР",
+        correct: false,
+        feedback: "Не припиняй реанімацію без причини. Продовжуй СЛР та застосовуй AED якомога швидше."
+      },
+      {
+        text: "Виконаю розряд, навіть якщо AED його не рекомендує",
+        correct: false,
+        feedback: "Розряд виконується лише за рекомендацією AED. Дотримуйся команд пристрою."
+      }
+    ]
+  }
+];
+
+let currentStage = 0;
+let score = 0;
+let answered = false;
+let attempts = 0;
+
+const counter = document.getElementById("counter");
+const progress = document.getElementById("progress");
+const sceneStatus = document.getElementById("sceneStatus");
+const calloutTitle = document.getElementById("calloutTitle");
+const calloutText = document.getElementById("calloutText");
+const sceneCaption = document.getElementById("sceneCaption");
+const sceneArrow = document.getElementById("sceneArrow");
+const eyebrow = document.getElementById("eyebrow");
+const question = document.getElementById("question");
+const questionHint = document.getElementById("questionHint");
+const answersBox = document.getElementById("answers");
+const feedback = document.getElementById("feedback");
+const nextButton = document.getElementById("nextButton");
+const retryButton = document.getElementById("retryButton");
+const restartButton = document.getElementById("restartButton");
+const panel = document.querySelector(".panel");
+
+function renderStage() {
+  answered = false;
+  attempts = 0;
+
+  const stage = stages[currentStage];
+
+  counter.textContent = `Етап ${currentStage + 1} із ${stages.length}`;
+  progress.style.width = `${((currentStage + 1) / stages.length) * 100}%`;
+  sceneStatus.textContent = stage.status;
+  calloutTitle.textContent = stage.calloutTitle;
+  calloutText.textContent = stage.calloutText;
+  sceneCaption.textContent = stage.caption;
+  sceneArrow.textContent = stage.arrow;
+
+  eyebrow.textContent = stage.eyebrow;
+  question.textContent = stage.question;
+  questionHint.textContent = stage.hint;
+
+  feedback.className = "feedback";
+  feedback.textContent = "";
+  nextButton.classList.add("hidden");
+  retryButton.classList.add("hidden");
+  answersBox.innerHTML = "";
+
+  stage.answers.forEach((answer, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "answer";
+    button.innerHTML =
+      `<span class="letter">${String.fromCharCode(65 + index)}</span>` +
+      `<span></span>`;
+
+    button.querySelector("span:last-child").textContent = answer.text;
+    button.addEventListener("click", () => chooseAnswer(index, button));
+    answersBox.appendChild(button);
+  });
+
+  panel.scrollTop = 0;
+}
+
+function chooseAnswer(index, selectedButton) {
+  if (answered) return;
+
+  attempts++;
+  const stage = stages[currentStage];
+  const selected = stage.answers[index];
+  const buttons = [...answersBox.querySelectorAll(".answer")];
+
+  if (selected.correct) {
+    answered = true;
+    score++;
+
+    buttons.forEach((button, i) => {
+      button.disabled = true;
+      if (stage.answers[i].correct) button.classList.add("correct");
+    });
+
+    feedback.className = "feedback show good";
+    feedback.innerHTML = "";
+    const strong = document.createElement("strong");
+    strong.textContent = "Правильне рішення";
+    feedback.appendChild(strong);
+    feedback.appendChild(document.createTextNode(selected.feedback));
+
+    nextButton.textContent =
+      currentStage === stages.length - 1
+        ? "Завершити сценарій →"
+        : "Наступний етап →";
+    nextButton.classList.remove("hidden");
+    retryButton.classList.add("hidden");
+    return;
+  }
+
+  selectedButton.classList.add("wrong");
+  selectedButton.disabled = true;
+
+  feedback.className = "feedback show bad";
+  feedback.innerHTML = "";
+  const strong = document.createElement("strong");
+  strong.textContent = "Не зовсім. Спробуй ще раз.";
+  feedback.appendChild(strong);
+  feedback.appendChild(document.createTextNode(selected.feedback));
+
+  if (attempts >= stage.answers.length - 1) {
+    buttons.forEach((button, i) => {
+      button.disabled = true;
+      if (stage.answers[i].correct) button.classList.add("correct");
+    });
+
+    answered = true;
+    retryButton.classList.remove("hidden");
+  }
+}
+
+function showResults() {
+  counter.textContent = "Сценарій завершено";
+  progress.style.width = "100%";
+  sceneStatus.textContent = "Результат навчання";
+  calloutTitle.textContent = "Сценарій завершено";
+  calloutText.textContent = "Переглянь результат і спробуй пройти ще раз.";
+  sceneCaption.textContent =
+    "Навчальна симуляція не замінює практичного відпрацювання навичок.";
+
+  eyebrow.textContent = "ФІНАЛ · РЕЗУЛЬТАТ";
+  question.textContent = "Ти пройшла всі етапи сценарію!";
+  questionHint.textContent =
+    "Переглянь результат. Після повторного проходження спробуй відповідати без помилок.";
+
+  answersBox.innerHTML = "";
+  feedback.className = "feedback show good";
+  feedback.innerHTML = "";
+
+  const result = document.createElement("div");
+  result.className = "resultBox";
+
+  const number = document.createElement("div");
+  number.className = "resultNumber";
+  number.textContent = `${score} / ${stages.length}`;
+
+  const description = document.createElement("p");
+  description.textContent =
+    score === stages.length
+      ? "Чудово! Ти правильно обрала першочергові дії в усіх шести етапах."
+      : "Сценарій завершено. Повтори етапи, у яких були помилки, і пройди сценарій ще раз.";
+
+  const note = document.createElement("p");
+  note.textContent =
+    "Цей результат відображає лише відповіді в інтерактивному сценарії, а не підтверджує практичні навички СЛР.";
+
+  result.appendChild(number);
+  result.appendChild(description);
+  result.appendChild(note);
+  feedback.appendChild(result);
+
+  nextButton.classList.add("hidden");
+  retryButton.classList.add("hidden");
+}
+
+nextButton.addEventListener("click", () => {
+  if (!answered) return;
+
+  if (currentStage < stages.length - 1) {
+    currentStage++;
+    renderStage();
+  } else {
+    showResults();
+  }
+});
+
+retryButton.addEventListener("click", () => {
+  renderStage();
+});
+
+restartButton.addEventListener("click", () => {
+  currentStage = 0;
+  score = 0;
+  renderStage();
+});
+
+renderStage();
+</script>
+</body>
+</html>
