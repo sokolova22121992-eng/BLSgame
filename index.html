@@ -715,6 +715,26 @@ top: 8%;
     box-shadow: 0 0 20px #ff0000, 0 0 38px rgba(255, 0, 0, 0.9);
   }
 }
+  
+.bonusButton {
+  display: block;
+  width: 100%;
+  margin: 16px 0;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #e1306c;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 16px rgba(225, 48, 108, 0.35);
+}
+
+.bonusButton:hover {
+  background: #c9255b;
+}
+
 </style>
 </head>
 
@@ -1481,6 +1501,17 @@ note.textContent =
   result.appendChild(description);
   result.appendChild(note);
   feedback.appendChild(result);
+
+const bonusButton = document.createElement("button");
+bonusButton.type = "button";
+bonusButton.className = "bonusButton";
+bonusButton.textContent = "🎁 Відкрити корисний бонус";
+
+bonusButton.addEventListener("click", () => {
+  window.open("https://www.instagram.com/ntvrivne/", "_blank");
+});
+
+feedback.appendChild(bonusButton);
 
   nextButton.classList.add("hidden");
   retryButton.classList.add("hidden");
