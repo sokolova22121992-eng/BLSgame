@@ -1159,6 +1159,7 @@ const isCPRStage = currentStage === 5;
 const isAirwayStage = currentStage === 4;
 const isDiscoveryStage = currentStage === 0 || currentStage === 1;
 const isCallEmergencyStage = currentStage === 3;
+  const isReactionStage = currentStage === 2;
   
 const hazards = document.getElementById("hazards");
 hazards.classList.toggle("visible", currentStage === 1);
@@ -1172,8 +1173,9 @@ hazards.classList.toggle("visible", currentStage === 1);
 sceneImage.style.display = isCPRStage ? "block" : "none";
 airwayImage.style.display = isAirwayStage ? "block" : "none";
 discoveryImage.style.display = isDiscoveryStage ? "block" : "none";
-  callEmergencyImage.style.display =
+callEmergencyImage.style.display =
   isCallEmergencyStage ? "block" : "none";
+reactionImage.style.display = isReactionStage ? "block" : "none";
 
 console.log("Етап:", currentStage, "Зображення:", discoveryImage);
 
