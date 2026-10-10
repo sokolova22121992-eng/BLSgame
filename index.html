@@ -1438,8 +1438,12 @@ function showResults() {
   counter.textContent = "Сценарій завершено";
   progress.style.width = "100%";
   sceneStatus.textContent = "Результат навчання";
+ if (typeof calloutTitle !== "undefined" && calloutTitle) {
   calloutTitle.textContent = "Сценарій завершено";
+}
+if (typeof calloutText !== "undefined" && calloutText) {
   calloutText.textContent = "Переглянь результат і спробуй пройти ще раз.";
+}
   
     "Навчальна симуляція не замінює практичного відпрацювання навичок.";
 
