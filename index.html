@@ -973,12 +973,14 @@ const isCPRStage = currentStage === 5;
 const isAirwayStage = currentStage === 4;
 const isDiscoveryStage = currentStage === 0;
 
-scene.style.display =
+  scene.style.display =
   (isCPRStage || isAirwayStage || isDiscoveryStage) ? "none" : "";
 
 sceneImage.style.display = isCPRStage ? "block" : "none";
 airwayImage.style.display = isAirwayStage ? "block" : "none";
 discoveryImage.style.display = isDiscoveryStage ? "block" : "none";
+
+console.log("Етап:", currentStage, "Зображення:", discoveryImage);
 
 
   counter.textContent = `Етап ${currentStage + 1} із ${stages.length}`;
