@@ -1158,7 +1158,9 @@ hazards.classList.toggle("visible", currentStage === 1);
 
   
   scene.style.display =
-  (isCPRStage || isAirwayStage || isDiscoveryStage) ? "none" : "";
+  (isCPRStage || isAirwayStage || isDiscoveryStage || isCallEmergencyStage)
+    ? "none"
+    : "";
 
 sceneImage.style.display = isCPRStage ? "block" : "none";
 airwayImage.style.display = isAirwayStage ? "block" : "none";
