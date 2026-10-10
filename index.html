@@ -857,9 +857,7 @@ footer {
 <section class="panel" aria-live="polite">
   <div class="eyebrow" id="eyebrow">ЕТАП 1 · БЕЗПЕКА</div>
   <h1 id="question">Ти бачиш людину, яка лежить на землі. З чого почнеш?</h1>
-  <div class="questionHint" id="questionHint">
-    Перед наданням допомоги потрібно переконатися, що місце безпечне для тебе, постраждалого та оточення.
-  </div>
+ <div class="questionHint hidden" id="questionHint"></div>
 
   <div class="answers" id="answers"></div>
 
@@ -1102,8 +1100,7 @@ const progress = document.getElementById("progress");
 const sceneStatus = document.getElementById("sceneStatus");
 
 
-const sceneCaption = document.getElementById("sceneCaption");
-const sceneArrow = document.getElementById("sceneArrow");
+
 const eyebrow = document.getElementById("eyebrow");
 const question = document.getElementById("question");
 const questionHint = document.getElementById("questionHint");
@@ -1155,8 +1152,7 @@ console.log("Етап:", currentStage, "Зображення:", discoveryImage);
   progress.style.width = `${((currentStage + 1) / stages.length) * 100}%`;
   sceneStatus.textContent = stage.status;
  
-  sceneCaption.textContent = stage.caption;
-  sceneArrow.textContent = stage.arrow;
+  sceneCaption.textContent = stagecaption;
 
   eyebrow.textContent = stage.eyebrow;
   question.textContent = stage.question;
