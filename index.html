@@ -1451,11 +1451,9 @@ function showResults() {
 if (typeof calloutText !== "undefined" && calloutText) {
   calloutText.textContent = "Переглянь результат і спробуй пройти ще раз.";
 }
-  
-    "Навчальна симуляція не замінює практичного відпрацювання навичок.";
 
   eyebrow.textContent = "ФІНАЛ · РЕЗУЛЬТАТ";
-  question.textContent = "Ти пройшла всі етапи сценарію!";
+question.textContent = "Сценарій пройдено!";
   questionHint.textContent =
     "Переглянь результат. Після повторного проходження спробуй відповідати без помилок.";
 
@@ -1471,15 +1469,14 @@ if (typeof calloutText !== "undefined" && calloutText) {
   number.textContent = `${score} / ${stages.length}`;
 
   const description = document.createElement("p");
-  description.textContent =
-    score === stages.length
-      ? "Чудово! Ти правильно обрала першочергові дії в усіх шести етапах."
-      : "Сценарій завершено. Повтори етапи, у яких були помилки, і пройди сценарій ще раз.";
+description.textContent =
+  score === stages.length
+    ? "Чудовий результат! Усі шість етапів пройдено, першочергові дії обрано правильно."
+    : "Сценарій завершено. Повтори етапи, у яких були помилки, і пройди сценарій ще раз.";
 
   const note = document.createElement("p");
-  note.textContent =
-    "Цей результат відображає лише відповіді в інтерактивному сценарії, а не підтверджує практичні навички СЛР.";
-
+note.textContent =
+  "Цей результат відображає відповіді в інтерактивному сценарії та не є підтвердженням практичних навичок серцево-легеневої реанімації (СЛР).";
   result.appendChild(number);
   result.appendChild(description);
   result.appendChild(note);
