@@ -1274,7 +1274,7 @@ function renderStage() {
   attempts = 0;
 
 const stage = stages[currentStage];
-  const countdownTimer = document.getElementById("countdownTimer");
+ const countdownTimer = document.getElementById("countdownTimer");
 
 if (countdownTimer) {
   countdownTimer.classList.remove("visible");
@@ -1284,20 +1284,20 @@ if (countdownTimer) {
     countdownTimer.classList.add("visible");
 
     let seconds = 1;
+
     const timerInterval = setInterval(() => {
-      if (currentStage !== 3 || answered) {
+      if (currentStage !== 4 || answered) {
         clearInterval(timerInterval);
         countdownTimer.classList.remove("visible");
         return;
       }
 
-      if (seconds >= 10) {
+      if (seconds < 10) {
+        seconds++;
+        countdownTimer.textContent = seconds;
+      } else {
         clearInterval(timerInterval);
-        return;
       }
-
-      seconds++;
-      countdownTimer.textContent = seconds;
     }, 1000);
   }
 }
