@@ -1152,7 +1152,6 @@ console.log("Етап:", currentStage, "Зображення:", discoveryImage);
   progress.style.width = `${((currentStage + 1) / stages.length) * 100}%`;
   sceneStatus.textContent = stage.status;
  
-  sceneCaption.textContent = stagecaption;
 
   eyebrow.textContent = stage.eyebrow;
   question.textContent = stage.question;
@@ -1240,7 +1239,7 @@ function showResults() {
   sceneStatus.textContent = "Результат навчання";
   calloutTitle.textContent = "Сценарій завершено";
   calloutText.textContent = "Переглянь результат і спробуй пройти ще раз.";
-  sceneCaption.textContent =
+  
     "Навчальна симуляція не замінює практичного відпрацювання навичок.";
 
   eyebrow.textContent = "ФІНАЛ · РЕЗУЛЬТАТ";
