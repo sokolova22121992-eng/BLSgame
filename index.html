@@ -961,6 +961,7 @@ const panel = document.querySelector(".panel");
 
 const scene = document.getElementById("scene");
 const sceneImage = document.getElementById("sceneImage");
+  const discoveryImage = document.getElementById("discoveryImage");
 const airwayImage = document.getElementById("airwayImage");
 function renderStage() {
   answered = false;
@@ -970,10 +971,14 @@ const stage = stages[currentStage];
 
 const isCPRStage = currentStage === 5;
 const isAirwayStage = currentStage === 4;
+const isDiscoveryStage = currentStage === 0;
 
-scene.style.display = (isCPRStage || isAirwayStage) ? "none" : "";
+scene.style.display =
+  (isCPRStage || isAirwayStage || isDiscoveryStage) ? "none" : "";
+
 sceneImage.style.display = isCPRStage ? "block" : "none";
 airwayImage.style.display = isAirwayStage ? "block" : "none";
+discoveryImage.style.display = isDiscoveryStage ? "block" : "none";
 
 
   counter.textContent = `Етап ${currentStage + 1} із ${stages.length}`;
