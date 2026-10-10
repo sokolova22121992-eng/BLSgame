@@ -966,19 +966,14 @@ function renderStage() {
   answered = false;
   attempts = 0;
 
- const stage = stages[currentStage];
+const stage = stages[currentStage];
 
-const isCPRStage = currentStage === 4;
-const isAirwayStage = currentStage === 1;
+const isCPRStage = currentStage === 5;
+const isAirwayStage = currentStage === 4;
 
-scene.style.display =
-  isCPRStage || isAirwayStage ? "none" : "";
-
-sceneImage.style.display =
-  isCPRStage ? "block" : "none";
-
-airwayImage.style.display =
-  isAirwayStage ? "block" : "none";
+scene.style.display = (isCPRStage || isAirwayStage) ? "none" : "";
+sceneImage.style.display = isCPRStage ? "block" : "none";
+airwayImage.style.display = isAirwayStage ? "block" : "none";
 
 
   counter.textContent = `Етап ${currentStage + 1} із ${stages.length}`;
