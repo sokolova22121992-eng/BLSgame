@@ -1221,18 +1221,23 @@ console.log("Етап:", currentStage, "Зображення:", discoveryImage);
   retryButton.classList.add("hidden");
   answersBox.innerHTML = "";
 
-  stage.answers.forEach((answer, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "answer";
-    button.innerHTML =
-      `<span class="letter">${String.fromCharCode(65 + index)}</span>` +
-      `<span></span>`;
+  const shuffledAnswers = stage.answers
+  .map(answer => ({ answer, sort: Math.random() }))
+  .sort((a, b) => a.sort - b.sort)
+  .map(item => item.answer);
 
-    button.querySelector("span:last-child").textContent = answer.text;
-    button.addEventListener("click", () => chooseAnswer(index, button));
-    answersBox.appendChild(button);
-  });
+shuffledAnswers.forEach((answer, index) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "answer";
+  button.innerHTML =
+    `<span class="letter">${String.fromCharCode(65 + index)}</span>` +
+    `<span></span>`;
+
+  button.querySelector("span:last-child").textContent = answer.text;
+  button.addEventListener("click", () => chooseAnswer(stage.answers.indexOf(answer), button));
+  answersBox.appendChild(button);
+});
 
   panel.scrollTop = 0;
 }
