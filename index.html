@@ -1232,6 +1232,7 @@ shuffledAnswers.forEach((answer, index) => {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "answer";
+  button.dataset.correct = String(answer.correct);
   button.innerHTML =
     `<span class="letter">${String.fromCharCode(65 + index)}</span>` +
     `<span></span>`;
@@ -1248,6 +1249,7 @@ function chooseAnswer(index, selectedButton) {
   if (answered) return;
 
   attempts++;
+
   const stage = stages[currentStage];
   const selected = stage.answers[index];
   const buttons = [...answersBox.querySelectorAll(".answer")];
@@ -1256,13 +1258,16 @@ function chooseAnswer(index, selectedButton) {
     answered = true;
     score++;
 
-    buttons.forEach((button, i) => {
+    buttons.forEach((button) => {
       button.disabled = true;
-      if (stage.answers[i].correct) button.classList.add("correct");
+      if (button.dataset.correct === "true") {
+        button.classList.add("correct");
+      }
     });
 
     feedback.className = "feedback show good";
     feedback.innerHTML = "";
+
     const strong = document.createElement("strong");
     strong.textContent = "Правильне рішення";
     feedback.appendChild(strong);
@@ -1272,6 +1277,7 @@ function chooseAnswer(index, selectedButton) {
       currentStage === stages.length - 1
         ? "Завершити сценарій →"
         : "Наступний етап →";
+
     nextButton.classList.remove("hidden");
     retryButton.classList.add("hidden");
     return;
@@ -1282,15 +1288,18 @@ function chooseAnswer(index, selectedButton) {
 
   feedback.className = "feedback show bad";
   feedback.innerHTML = "";
+
   const strong = document.createElement("strong");
   strong.textContent = "Не зовсім. Спробуй ще раз.";
   feedback.appendChild(strong);
   feedback.appendChild(document.createTextNode(selected.feedback));
 
   if (attempts >= stage.answers.length - 1) {
-    buttons.forEach((button, i) => {
+    buttons.forEach((button) => {
       button.disabled = true;
-      if (stage.answers[i].correct) button.classList.add("correct");
+      if (button.dataset.correct === "true") {
+        button.classList.add("correct");
+      }
     });
 
     answered = true;
