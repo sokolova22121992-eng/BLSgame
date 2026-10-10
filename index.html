@@ -681,6 +681,40 @@ footer {
     transform: translateY(0) scale(1);
   }
 }
+  .countdown-timer {
+  display: none;
+  position: absolute;
+  right: 8%;
+  top: 8%;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: #e60000;
+  color: #ffffff;
+  border: 3px solid #ff7777;
+  box-shadow: 0 0 12px #ff0000, 0 0 28px rgba(255, 0, 0, 0.7);
+  font-size: 34px;
+  font-weight: 900;
+  align-items: center;
+  justify-content: center;
+  z-index: 7;
+}
+
+.countdown-timer.visible {
+  display: flex;
+  animation: timerPulse 1s ease-in-out infinite;
+}
+
+@keyframes timerPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 12px #ff0000, 0 0 28px rgba(255, 0, 0, 0.7);
+  }
+  50% {
+    transform: scale(1.12);
+    box-shadow: 0 0 20px #ff0000, 0 0 38px rgba(255, 0, 0, 0.9);
+  }
+}
 </style>
 </head>
 
@@ -965,6 +999,9 @@ footer {
 <div id="speechBubble" class="speech-bubble" aria-hidden="true">
   Ви мене чуєте?
 </div>
+    <div id="countdownTimer" class="countdown-timer" aria-live="off">
+  1
+</div>
 
 </div>
 </section>
@@ -1237,6 +1274,33 @@ function renderStage() {
   attempts = 0;
 
 const stage = stages[currentStage];
+  const countdownTimer = document.getElementById("countdownTimer");
+
+if (countdownTimer) {
+  countdownTimer.classList.remove("visible");
+  countdownTimer.textContent = "1";
+
+  if (currentStage === 3) {
+    countdownTimer.classList.add("visible");
+
+    let seconds = 1;
+    const timerInterval = setInterval(() => {
+      if (currentStage !== 3 || answered) {
+        clearInterval(timerInterval);
+        countdownTimer.classList.remove("visible");
+        return;
+      }
+
+      if (seconds >= 10) {
+        clearInterval(timerInterval);
+        return;
+      }
+
+      seconds++;
+      countdownTimer.textContent = seconds;
+    }, 1000);
+  }
+}
   const speechBubble = document.getElementById("speechBubble");
 if (speechBubble) {
   speechBubble.classList.toggle("visible", currentStage === 2);
