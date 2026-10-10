@@ -681,7 +681,12 @@ footer {
       alt="Виконання компресій грудної клітки дорослому постраждалому"
       style="display: none; width: 100%; aspect-ratio: 900 / 430; object-fit: cover;"
     />
-
+<img
+  id="airwayImage"
+  src="./airway-assessment.png"
+  alt="Оцінювання дихання: відкриття дихальних шляхів і перевірка дихання"
+  style="display: none; width: 100%; aspect-ratio: 900 / 430; object-fit: cover;"
+/>
     <div class="sceneCallout" id="sceneCallout">
       <strong id="calloutTitle">Твоя зміна починається</strong>
       <span id="calloutText">Ти бачиш людину, яка лежить на землі. Що робитимеш?</span>
@@ -956,17 +961,24 @@ const panel = document.querySelector(".panel");
 
 const scene = document.getElementById("scene");
 const sceneImage = document.getElementById("sceneImage");
-
+const airwayImage = document.getElementById("airwayImage");
 function renderStage() {
   answered = false;
   attempts = 0;
 
-  const stage = stages[currentStage];
-  
-  const isCPRStage = currentStage === 4;
+ const stage = stages[currentStage];
 
-  scene.style.display = isCPRStage ? "none" : "";
-  sceneImage.style.display = isCPRStage ? "block" : "none";
+const isCPRStage = currentStage === 4;
+const isAirwayStage = currentStage === 1;
+
+scene.style.display =
+  isCPRStage || isAirwayStage ? "none" : "";
+
+sceneImage.style.display =
+  isCPRStage ? "block" : "none";
+
+airwayImage.style.display =
+  isAirwayStage ? "block" : "none";
 
 
   counter.textContent = `Етап ${currentStage + 1} із ${stages.length}`;
