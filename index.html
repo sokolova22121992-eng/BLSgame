@@ -1087,6 +1087,20 @@ nextButton.addEventListener("click", () => {
   if (currentStage < stages.length - 1) {
     currentStage++;
     
+
+    renderStage();
+  } else {
+    showResults();
+  }
+});
+
+
+restartButton.addEventListener("click", () => {
+  currentStage = 0;
+  score = 0;
+  renderStage();
+});
+
 const startScreen = document.getElementById("startScreen");
 const startImage = document.getElementById("startImage");
 const startButton = document.getElementById("startButton");
@@ -1101,20 +1115,8 @@ function startGame() {
 startImage.addEventListener("click", startGame);
 startButton.addEventListener("click", startGame);
 
-    renderStage();
-  } else {
-    showResults();
-  }
-});
+renderStage();
 
-retryButton.addEventListener("click", () => {
-  renderStage();
-});
-
-restartButton.addEventListener("click", () => {
-  currentStage = 0;
-  score = 0;
-  renderStage();
 });
 
 renderStage();
