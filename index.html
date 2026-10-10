@@ -1176,6 +1176,10 @@ function renderStage() {
   attempts = 0;
 
 const stage = stages[currentStage];
+  const surveyArrows = document.getElementById("surveyArrows");
+if (surveyArrows) {
+  surveyArrows.classList.toggle("visible", currentStage === 1);
+}
 
 const isCPRStage = currentStage === 5;
 const isAirwayStage = currentStage === 4;
