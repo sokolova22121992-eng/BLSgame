@@ -977,8 +977,8 @@ const stage = stages[currentStage];
 
 const isCPRStage = currentStage === 5;
 const isAirwayStage = currentStage === 4;
-const isDiscoveryStage = currentStage === 0;
-
+const isDiscoveryStage = currentStage === 0 || currentStage === 1;
+  
   scene.style.display =
   (isCPRStage || isAirwayStage || isDiscoveryStage) ? "none" : "";
 
